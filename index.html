@@ -1,1009 +1,749 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tornado Simulator — Multi-Variable Damage Modeler</title>
-  <meta name="description" content="Physics-based tornado damage simulator with realistic fragility curves, casualty modeling, agricultural impact, and economic loss estimation." />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌪️</text></svg>" />
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { overflow: hidden; background: #0a0a18; }
-    #root { height: 100vh; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AvianCall – Bird Sounds & Calls</title>
+<link rel="manifest" href="#" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="AvianCall">
+<link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/bird_1f426.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=Instrument+Serif:ital@0;1&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green: #2d6a4f;
+    --green-mid: #40916c;
+    --green-light: #d8f3dc;
+    --green-pale: #f0faf2;
+    --amber: #b5451b;
+    --cream: #faf8f3;
+    --dark: #1a2416;
+    --muted: #52635a;
+    --border: #d6e8d0;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(250,248,243,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px;
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    font-weight: 600; font-size: 17px; color: var(--dark); text-decoration: none;
+  }
+  .nav-logo img { width: 32px; height: 32px; border-radius: 8px; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { text-decoration: none; color: var(--muted); font-size: 14px; transition: color .2s; }
+  .nav-links a:hover { color: var(--green); }
+  .nav-badge {
+    background: var(--green); color: #fff;
+    font-size: 12px; font-weight: 500; padding: 6px 14px;
+    border-radius: 20px; text-decoration: none;
+    transition: background .2s;
+  }
+  .nav-badge:hover { background: var(--green-mid); }
+
+  /* HERO */
+  .hero {
+    min-height: 88vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center; gap: 4rem;
+    max-width: 1100px; margin: 0 auto;
+    padding: 5rem 2rem 4rem;
+  }
+  .hero-text { }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--green-light); color: var(--green);
+    font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+    padding: 6px 14px; border-radius: 20px; margin-bottom: 1.5rem;
+  }
+  .hero-eyebrow span { font-size: 14px; }
+  h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2.8rem, 5vw, 4.2rem);
+    line-height: 1.08;
+    color: var(--dark);
+    margin-bottom: 1.25rem;
+  }
+  h1 em { font-style: italic; color: var(--green-mid); }
+  .hero-sub {
+    font-size: 17px; color: var(--muted); line-height: 1.65;
+    max-width: 460px; margin-bottom: 2.25rem;
+  }
+  .cta-group { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--dark); color: #fff;
+    padding: 14px 24px; border-radius: 14px;
+    font-size: 15px; font-weight: 500; text-decoration: none;
+    transition: background .2s, transform .15s;
+    border: none; cursor: pointer;
+  }
+  .btn-primary:hover { background: var(--green); transform: translateY(-1px); }
+  .btn-primary svg { width: 20px; height: 20px; }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--muted); font-size: 14px; text-decoration: none;
+    padding: 14px 0;
+  }
+  .hero-meta {
+    margin-top: 2.5rem;
+    display: flex; align-items: center; gap: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .stars { color: #f4a227; font-size: 14px; }
+  .meta-label { font-size: 13px; color: var(--muted); }
+  .meta-label strong { color: var(--dark); }
+  .meta-divider { width: 1px; height: 24px; background: var(--border); }
+
+  /* PHONE MOCKUP */
+  .phone-wrap {
+    display: flex; justify-content: center; align-items: center;
+    position: relative;
+  }
+  .phone {
+    width: 260px;
+    background: #111;
+    border-radius: 44px;
+    padding: 14px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.05);
+    position: relative;
+  }
+  .phone-notch {
+    width: 100px; height: 28px;
+    background: #111; border-radius: 0 0 18px 18px;
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    z-index: 10;
+  }
+  .phone-screen {
+    background: #0f1a10;
+    border-radius: 32px;
+    overflow: hidden;
+    aspect-ratio: 9/19.5;
+    display: flex; flex-direction: column;
+  }
+  .ps-header {
+    background: #1a2d1c;
+    padding: 40px 16px 14px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .ps-title { color: #fff; font-size: 20px; font-weight: 600; }
+  .ps-search {
+    background: #2a3d2c; border-radius: 10px;
+    padding: 8px 12px; margin: 10px;
+    color: #6a8f6c; font-size: 13px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .ps-search svg { width: 14px; height: 14px; opacity: .6; }
+  .ps-list { flex: 1; overflow: hidden; padding: 4px 0; }
+  .ps-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .ps-icon { font-size: 24px; }
+  .ps-info { flex: 1; }
+  .ps-bird { color: #e8f5e9; font-size: 13px; font-weight: 500; }
+  .ps-region { color: #5a7a5c; font-size: 11px; margin-top: 1px; }
+  .ps-play {
+    width: 30px; height: 30px;
+    background: #2d6a4f; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .ps-play svg { width: 12px; height: 12px; fill: #fff; margin-left: 1px; }
+  .ps-now-playing {
+    background: #1e3321; padding: 10px 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .ps-np-icon { font-size: 20px; }
+  .ps-np-info { flex: 1; }
+  .ps-np-name { color: #d4edda; font-size: 12px; font-weight: 500; }
+  .ps-np-sub { color: #5a7a5c; font-size: 10px; }
+  .ps-np-wave { display: flex; align-items: center; gap: 2px; }
+  .wave-bar {
+    width: 3px; background: #40916c; border-radius: 2px;
+    animation: waveBob 0.8s ease-in-out infinite;
+  }
+  .wave-bar:nth-child(1) { height: 8px; animation-delay: 0s; }
+  .wave-bar:nth-child(2) { height: 14px; animation-delay: .15s; }
+  .wave-bar:nth-child(3) { height: 10px; animation-delay: .3s; }
+  .wave-bar:nth-child(4) { height: 16px; animation-delay: .1s; }
+  .wave-bar:nth-child(5) { height: 8px; animation-delay: .25s; }
+  @keyframes waveBob {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(0.4); }
+  }
+
+  /* FEATURES */
+  .section { max-width: 1100px; margin: 0 auto; padding: 5rem 2rem; }
+  .section-label {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 12px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .08em; color: var(--green); margin-bottom: 1rem;
+  }
+  .section-label::before, .section-label::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+  h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    text-align: center; line-height: 1.1; margin-bottom: 1rem;
+  }
+  .section-sub { text-align: center; color: var(--muted); font-size: 16px; max-width: 520px; margin: 0 auto 3.5rem; }
+
+  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .feat-card {
+    background: #fff; border: 1px solid var(--border);
+    border-radius: 20px; padding: 1.75rem;
+  }
+  .feat-icon {
+    width: 48px; height: 48px; background: var(--green-pale);
+    border-radius: 14px; display: flex; align-items: center; justify-content: center;
+    font-size: 22px; margin-bottom: 1rem;
+  }
+  .feat-card h3 { font-size: 16px; font-weight: 600; margin-bottom: .5rem; }
+  .feat-card p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* BIRD LIST */
+  .bird-section { background: var(--green-pale); padding: 5rem 0; }
+  .bird-section .section { }
+  .birds-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border); border-radius: 20px; overflow: hidden; border: 1px solid var(--border); }
+  .bird-row {
+    display: flex; align-items: center; gap: 14px;
+    background: #fff; padding: 14px 18px;
+    cursor: pointer; transition: background .15s;
+  }
+  .bird-row:hover { background: #f8fef9; }
+  .bird-emoji { font-size: 28px; flex-shrink: 0; }
+  .bird-info { flex: 1; min-width: 0; }
+  .bird-name { font-weight: 500; font-size: 14px; color: var(--dark); }
+  .bird-sci { font-style: italic; font-size: 12px; color: var(--muted); margin-top: 1px; }
+  .bird-region { font-size: 11px; color: #8aab8c; margin-top: 2px; }
+  .bird-play-btn {
+    width: 36px; height: 36px; flex-shrink: 0;
+    background: var(--green-pale); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid var(--border); transition: background .15s;
+  }
+  .bird-row:hover .bird-play-btn { background: var(--green-light); }
+  .bird-play-btn svg { width: 13px; height: 13px; fill: var(--green); margin-left: 1px; }
+  .bird-tag {
+    font-size: 10px; padding: 2px 8px; border-radius: 10px; margin-top: 3px; display: inline-block;
+  }
+  .tag-rare { background: #fdf0e0; color: #a05a00; }
+  .tag-new { background: var(--green-light); color: var(--green); }
+  .tag-featured { background: #ede8fb; color: #4a3a9a; }
+
+  /* INSTALL */
+  .install-section { padding: 5rem 2rem; }
+  .install-card {
+    max-width: 700px; margin: 0 auto;
+    background: var(--dark); border-radius: 28px;
+    padding: 3rem; color: #fff; text-align: center;
+  }
+  .install-card h2 { font-family: 'Instrument Serif', serif; font-size: 2.4rem; color: #fff; margin-bottom: 1rem; }
+  .install-card p { color: rgba(255,255,255,0.6); font-size: 15px; line-height: 1.6; margin-bottom: 2rem; }
+  .install-steps {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  .step {
+    background: rgba(255,255,255,0.06); border-radius: 16px;
+    padding: 1.25rem 1rem; border: 1px solid rgba(255,255,255,0.08);
+  }
+  .step-num {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--green-mid); color: #fff;
+    font-size: 13px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto .75rem;
+  }
+  .step p { color: rgba(255,255,255,0.65); font-size: 13px; line-height: 1.5; margin: 0; }
+  .btn-install {
+    display: inline-flex; align-items: center; gap: 12px;
+    background: #fff; color: var(--dark);
+    padding: 16px 32px; border-radius: 16px;
+    font-size: 16px; font-weight: 600; text-decoration: none;
+    transition: opacity .2s, transform .15s;
+  }
+  .btn-install:hover { opacity: 0.9; transform: translateY(-1px); }
+  .btn-install svg { width: 22px; height: 22px; }
+  .install-note { margin-top: 1rem; color: rgba(255,255,255,0.35); font-size: 12px; }
+
+  /* REVIEWS */
+  .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .review-card {
+    background: #fff; border: 1px solid var(--border);
+    border-radius: 18px; padding: 1.5rem;
+  }
+  .review-stars { color: #f4a227; font-size: 13px; margin-bottom: .75rem; }
+  .review-text { font-size: 14px; line-height: 1.6; color: var(--muted); margin-bottom: 1rem; font-style: italic; }
+  .review-author { font-size: 13px; font-weight: 500; }
+  .review-handle { font-size: 12px; color: #aaa; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    max-width: 1100px; margin: 0 auto;
+    color: var(--muted); font-size: 13px;
+  }
+  .footer-logo { display: flex; align-items: center; gap: 8px; font-weight: 500; color: var(--dark); }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { color: var(--muted); text-decoration: none; }
+  .footer-links a:hover { color: var(--green); }
+
+  /* Decorative BG blobs */
+  .blob-wrap { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .blob {
+    position: absolute; border-radius: 50%;
+    filter: blur(80px); opacity: .18;
+  }
+  .blob1 { width: 500px; height: 500px; background: #40916c; top: -100px; right: -100px; }
+  .blob2 { width: 350px; height: 350px; background: #95d5b2; bottom: 20%; left: -80px; }
+
+  main { position: relative; z-index: 1; }
+
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
+    .hero-sub { max-width: 100%; }
+    .cta-group { justify-content: center; }
+    .hero-meta { justify-content: center; }
+    .phone-wrap { order: -1; }
+    .phone { width: 220px; }
+    .features-grid { grid-template-columns: 1fr; }
+    .birds-grid { grid-template-columns: 1fr; }
+    .install-steps { grid-template-columns: 1fr; }
+    .reviews-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
 </head>
 <body>
-  <div id="root"></div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.26.2/babel.min.js"></script>
-  <script type="text/babel">
-const { useState, useCallback, useMemo, useEffect, useRef } = React;
 
-// ─── CONSTANTS & MODELS ─────────────────────────────────────────────────────
+<div class="blob-wrap">
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+</div>
 
-const EF_SCALE = [
-  { rating: "EF0", min: 65, max: 85, color: "#4fc3f7", label: "Light" },
-  { rating: "EF1", min: 86, max: 110, color: "#81c784", label: "Moderate" },
-  { rating: "EF2", min: 111, max: 135, color: "#fff176", label: "Significant" },
-  { rating: "EF3", min: 136, max: 165, color: "#ffb74d", label: "Severe" },
-  { rating: "EF4", min: 166, max: 200, color: "#ff8a65", label: "Devastating" },
-  { rating: "EF5", min: 201, max: 320, color: "#ef5350", label: "Incredible" },
-];
+<nav>
+  <a href="#" class="nav-logo">
+    <img src="https://em-content.zobj.net/source/apple/391/bird_1f426.png" alt="AvianCall icon">
+    AvianCall
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#library">Library</a></li>
+    <li><a href="#install">Install</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+  </ul>
+  <a href="#install" class="nav-badge">Get the App</a>
+</nav>
 
-const getEFRating = (wind) => EF_SCALE.find((e) => wind >= e.min && wind <= e.max) || (wind > 320 ? EF_SCALE[5] : EF_SCALE[0]);
-
-// Fragility curves: probability of destruction at given wind speed (mph)
-// Based on TTU wind engineering research & HAZUS-MH methodology
-const STRUCTURE_FRAGILITY = {
-  mobile_home:     { v50: 0.15, v100: 0.70, v150: 0.98, v200: 1.00, v250: 1.00, value: 45000 },
-  wood_frame:      { v50: 0.01, v100: 0.10, v150: 0.55, v200: 0.90, v250: 0.99, value: 180000 },
-  brick_masonry:   { v50: 0.005, v100: 0.05, v150: 0.35, v200: 0.75, v250: 0.95, value: 250000 },
-  reinforced_conc: { v50: 0.001, v100: 0.01, v150: 0.08, v200: 0.30, v250: 0.65, value: 500000 },
-};
-
-const interpolateFragility = (type, windSpeed) => {
-  const f = STRUCTURE_FRAGILITY[type];
-  const points = [
-    [50, f.v50], [100, f.v100], [150, f.v150], [200, f.v200], [250, f.v250]
-  ];
-  if (windSpeed <= 50) return f.v50 * (windSpeed / 50);
-  if (windSpeed >= 250) return f.v250;
-  for (let i = 0; i < points.length - 1; i++) {
-    if (windSpeed >= points[i][0] && windSpeed <= points[i + 1][0]) {
-      const t = (windSpeed - points[i][0]) / (points[i + 1][0] - points[i][0]);
-      return points[i][1] + t * (points[i + 1][1] - points[i][1]);
-    }
-  }
-  return f.v250;
-};
-
-// Fatality model based on Simmons & Sutter (2005), Ashley (2007)
-// Base fatality rate per person exposed, by shelter type
-const FATALITY_RATES = {
-  no_shelter:      { ef0: 0.0001, ef1: 0.001, ef2: 0.005, ef3: 0.02, ef4: 0.08, ef5: 0.25 },
-  interior_room:   { ef0: 0.00001, ef1: 0.0001, ef2: 0.001, ef3: 0.005, ef4: 0.025, ef5: 0.10 },
-  basement:        { ef0: 0.000001, ef1: 0.00001, ef2: 0.0001, ef3: 0.001, ef4: 0.008, ef5: 0.04 },
-  storm_shelter:   { ef0: 0, ef1: 0, ef2: 0.00001, ef3: 0.0001, ef4: 0.001, ef5: 0.005 },
-};
-
-const CROP_LOSS_PER_ACRE = {
-  corn:     { value: 950, susceptibility: 0.85 },
-  wheat:    { value: 520, susceptibility: 0.70 },
-  soybeans: { value: 600, susceptibility: 0.80 },
-  cotton:   { value: 780, susceptibility: 0.75 },
-  none:     { value: 0, susceptibility: 0 },
-};
-
-const GROWTH_STAGE_MULT = { planting: 0.3, mid_season: 0.7, near_harvest: 1.0 };
-
-const TERRAIN_WIND_MODIFIER = {
-  flat_plains: 1.0,
-  rolling_hills: 0.92,
-  urban: 0.85,
-  forested: 0.88,
-};
-
-const INFRA_COSTS = {
-  power_lines: 35000,   // per mile destroyed
-  cell_towers: 250000,  // each
-  bridges: 2000000,     // each
-  water_towers: 800000, // each
-  gas_lines: 50000,     // per mile
-};
-
-// ─── SIMULATION ENGINE ──────────────────────────────────────────────────────
-
-function runSimulation(params) {
-  const {
-    windSpeed, pressureDeficit, pathLength, pathWidth, forwardSpeed,
-    direction, rainfall, hailSize, subVortices, lifespan,
-    terrain, timeOfDay, season,
-    housingDensity, mobileHomePct, woodFramePct, brickPct, concretePct,
-    powerLinesPerMile, cellTowers, bridges, waterTowers, gasLinesPerMile,
-    vehiclesPerMile,
-    cropType, growthStage, cropAcresPct,
-    popDensity, basementPct, shelterPct, warningLeadTime, preparedness,
-    livestockDensity,
-  } = params;
-
-  const ef = getEFRating(windSpeed);
-  const efIndex = EF_SCALE.indexOf(ef);
-  const efKey = `ef${efIndex}`;
-
-  // Effective wind with terrain modifier
-  const terrainMod = TERRAIN_WIND_MODIFIER[terrain];
-  const effectiveWind = windSpeed * terrainMod;
-
-  // Path area in sq miles
-  const pathWidthMiles = pathWidth / 1760;
-  const pathAreaSqMi = pathLength * pathWidthMiles;
-
-  // Multi-vortex intensity boost (each sub-vortex adds localized peaks)
-  const vortexBoost = 1 + (subVortices - 1) * 0.05;
-  const peakWind = Math.min(effectiveWind * vortexBoost, 320);
-
-  // Duration of exposure at any point (minutes)
-  const exposureDuration = forwardSpeed > 0 ? (pathWidthMiles * 60) / forwardSpeed : lifespan;
-
-  // ─── STRUCTURAL DAMAGE ──────────────────────────────
-  const totalStructures = housingDensity * pathAreaSqMi;
-  const structureBreakdown = {
-    mobile_home: totalStructures * (mobileHomePct / 100),
-    wood_frame: totalStructures * (woodFramePct / 100),
-    brick_masonry: totalStructures * (brickPct / 100),
-    reinforced_conc: totalStructures * (concretePct / 100),
-  };
-
-  let totalDestroyed = 0;
-  let totalDamaged = 0;
-  let residentialLoss = 0;
-
-  const structureDamage = {};
-  for (const [type, count] of Object.entries(structureBreakdown)) {
-    const destroyProb = interpolateFragility(type, peakWind);
-    // Wind field decay: center has peak, edges have ~40% of peak
-    // Average destruction across path width ≈ 60% of center probability
-    const avgDestroyProb = destroyProb * 0.6;
-    const damageProb = Math.min(avgDestroyProb * 2.5, 1.0);
-
-    const destroyed = Math.round(count * avgDestroyProb);
-    const damaged = Math.round(count * damageProb) - destroyed;
-
-    structureDamage[type] = { total: Math.round(count), destroyed, damaged };
-    totalDestroyed += destroyed;
-    totalDamaged += damaged;
-    residentialLoss += destroyed * STRUCTURE_FRAGILITY[type].value +
-                       damaged * STRUCTURE_FRAGILITY[type].value * 0.35;
-  }
-
-  // ─── INFRASTRUCTURE DAMAGE ──────────────────────────
-  const infraDestroyRate = interpolateFragility("wood_frame", peakWind) * 0.7;
-  const powerLinesDestroyed = pathLength * powerLinesPerMile * infraDestroyRate;
-  const cellTowersInPath = Math.ceil(cellTowers * (pathAreaSqMi / 50));
-  const cellTowersDestroyed = Math.round(cellTowersInPath * infraDestroyRate);
-  const bridgesInPath = Math.ceil(bridges * (pathLength / 30));
-  const bridgesDestroyed = Math.round(bridgesInPath * interpolateFragility("reinforced_conc", peakWind) * 0.5);
-  const waterTowersInPath = Math.ceil(waterTowers * (pathAreaSqMi / 100));
-  const waterTowersDestroyed = Math.round(waterTowersInPath * infraDestroyRate * 0.8);
-  const gasLinesDestroyed = pathLength * gasLinesPerMile * infraDestroyRate * 0.5;
-
-  const infraLoss =
-    powerLinesDestroyed * INFRA_COSTS.power_lines +
-    cellTowersDestroyed * INFRA_COSTS.cell_towers +
-    bridgesDestroyed * INFRA_COSTS.bridges +
-    waterTowersDestroyed * INFRA_COSTS.water_towers +
-    gasLinesDestroyed * INFRA_COSTS.gas_lines;
-
-  // ─── VEHICLE DAMAGE ─────────────────────────────────
-  const vehiclesInPath = vehiclesPerMile * pathLength * (pathWidthMiles / 0.1);
-  const vehiclesDestroyed = Math.round(vehiclesInPath * interpolateFragility("mobile_home", peakWind) * 0.4);
-  const vehicleLoss = vehiclesDestroyed * 25000;
-
-  // ─── CROP & LIVESTOCK DAMAGE ────────────────────────
-  const cropInfo = CROP_LOSS_PER_ACRE[cropType];
-  const cropAcres = pathAreaSqMi * 640 * (cropAcresPct / 100);
-  const windCropDamage = Math.min(peakWind / 200, 1.0) * cropInfo.susceptibility;
-  const hailCropDamage = Math.min(hailSize / 4, 1.0) * 0.5;
-  const totalCropDamagePct = Math.min(windCropDamage + hailCropDamage, 1.0);
-  const cropLoss = cropAcres * cropInfo.value * totalCropDamagePct * GROWTH_STAGE_MULT[growthStage];
-
-  const livestockInPath = livestockDensity * pathAreaSqMi;
-  const livestockFatality = Math.min(peakWind / 300, 0.8) * 0.3;
-  const livestockLost = Math.round(livestockInPath * livestockFatality);
-  const livestockLoss = livestockLost * 1500;
-
-  // ─── CASUALTIES ─────────────────────────────────────
-  const populationInPath = popDensity * pathAreaSqMi;
-
-  // Warning effectiveness: each minute of lead time reduces casualties
-  // Simmons & Sutter: ~1.8% reduction per minute of lead time
-  const warningReduction = Math.max(0, 1 - warningLeadTime * 0.018);
-
-  // Night multiplier: Ashley (2007) — nighttime tornadoes 2.5x more lethal
-  const nightMult = (timeOfDay === "night") ? 2.5 : (timeOfDay === "evening") ? 1.5 : 1.0;
-
-  // Preparedness reduces casualties (siren coverage, education, apps)
-  const preparednessMult = 1 - preparedness * 0.4;
-
-  // Shelter distribution
-  const noShelterPct = mobileHomePct / 100;
-  const inBasement = basementPct / 100;
-  const inShelter = shelterPct / 100;
-  const inInterior = Math.max(0, 1 - noShelterPct - inBasement - inShelter);
-
-  const baseFatalityRate =
-    noShelterPct * (FATALITY_RATES.no_shelter[efKey] || 0) +
-    inInterior * (FATALITY_RATES.interior_room[efKey] || 0) +
-    inBasement * (FATALITY_RATES.basement[efKey] || 0) +
-    inShelter * (FATALITY_RATES.storm_shelter[efKey] || 0);
-
-  const adjustedFatalityRate = baseFatalityRate * warningReduction * nightMult * preparednessMult;
-  const fatalities = Math.round(populationInPath * adjustedFatalityRate);
-  const injuries = Math.round(fatalities * 15); // ~15:1 injury to fatality ratio
-
-  // Rainfall flooding additional damage
-  const floodDamage = rainfall > 3 ? residentialLoss * 0.05 * (rainfall / 3) : 0;
-
-  // ─── TOTAL ECONOMIC IMPACT ──────────────────────────
-  const directDamage = residentialLoss + infraLoss + vehicleLoss + cropLoss + livestockLoss + floodDamage;
-  const emergencyResponseCost = fatalities * 50000 + injuries * 8000 + totalDestroyed * 2000;
-  const businessInterruption = directDamage * 0.15;
-  const totalEconomicImpact = directDamage + emergencyResponseCost + businessInterruption;
-
-  return {
-    ef, efIndex, effectiveWind: Math.round(effectiveWind), peakWind: Math.round(peakWind),
-    pathAreaSqMi: pathAreaSqMi.toFixed(2),
-    exposureDuration: exposureDuration.toFixed(1),
-    structureDamage, totalDestroyed, totalDamaged, totalStructures: Math.round(totalStructures),
-    infraLoss, powerLinesDestroyed: Math.round(powerLinesDestroyed),
-    cellTowersDestroyed, bridgesDestroyed, waterTowersDestroyed,
-    gasLinesDestroyed: Math.round(gasLinesDestroyed),
-    vehiclesDestroyed, vehicleLoss,
-    cropAcres: Math.round(cropAcres), cropLoss, livestockLost, livestockLoss,
-    populationInPath: Math.round(populationInPath),
-    fatalities, injuries,
-    residentialLoss, floodDamage, emergencyResponseCost, businessInterruption,
-    totalEconomicImpact,
-    warningReduction, nightMult, preparednessMult,
-  };
-}
-
-// ─── HISTORICAL COMPARISONS ─────────────────────────────────────────────────
-
-const HISTORICAL = [
-  { name: "Joplin, MO 2011", ef: 5, fatalities: 158, injuries: 1150, damage: 2.8e9, pathLength: 22.1, pathWidth: 1760 },
-  { name: "Moore, OK 2013", ef: 5, fatalities: 24, injuries: 377, damage: 2.0e9, pathLength: 17, pathWidth: 1900 },
-  { name: "Tuscaloosa, AL 2011", ef: 4, fatalities: 64, injuries: 1500, damage: 2.4e9, pathLength: 80.7, pathWidth: 2640 },
-  { name: "Greensburg, KS 2007", ef: 5, fatalities: 11, injuries: 63, damage: 250e6, pathLength: 22, pathWidth: 2816 },
-  { name: "El Reno, OK 2013", ef: 3, fatalities: 8, injuries: 151, damage: 40e6, pathLength: 16.2, pathWidth: 4505 },
-  { name: "Tri-State 1925", ef: 5, fatalities: 695, injuries: 2027, damage: 1.4e9, pathLength: 219, pathWidth: 1760 },
-];
-
-// ─── FORMATTING ─────────────────────────────────────────────────────────────
-
-const fmt = (n) => {
-  if (n >= 1e9) return `$${(n / 1e9).toFixed(2)}B`;
-  if (n >= 1e6) return `$${(n / 1e6).toFixed(1)}M`;
-  if (n >= 1e3) return `$${(n / 1e3).toFixed(0)}K`;
-  return `$${Math.round(n)}`;
-};
-
-const numFmt = (n) => Math.round(n).toLocaleString();
-
-// ─── SLIDER COMPONENT ───────────────────────────────────────────────────────
-
-function Slider({ label, value, onChange, min, max, step = 1, unit = "", info }) {
-  return (
-    <div style={{ marginBottom: 10 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "#b0b0b0", marginBottom: 3 }}>
-        <span title={info}>{label}</span>
-        <span style={{ color: "#e0e0e0", fontFamily: "'JetBrains Mono', monospace", fontWeight: 600 }}>
-          {typeof value === "number" ? value.toLocaleString() : value}{unit}
-        </span>
+<main>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-eyebrow"><span>🐦</span> The #1 Bird Sound App</div>
+    <h1>Discover every <em>song</em> of every bird</h1>
+    <p class="hero-sub">AvianCall gives you instant access to 800+ professionally recorded bird calls from around the world. Identify, explore, and share.</p>
+    <div class="cta-group">
+      <a href="#install" class="btn-primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z"/><circle cx="12" cy="12" r="3"/></svg>
+        Add to Home Screen
+      </a>
+      <a href="#library" class="btn-secondary">Browse library →</a>
+    </div>
+    <div class="hero-meta">
+      <div>
+        <div class="stars">★★★★★</div>
+        <div class="meta-label"><strong>4.9</strong> out of 5</div>
       </div>
-      <input
-        type="range" min={min} max={max} step={step} value={value}
-        onChange={(e) => onChange(parseFloat(e.target.value))}
-        style={{ width: "100%", accentColor: "#ef5350", height: 4 }}
-      />
+      <div class="meta-divider"></div>
+      <div class="meta-label"><strong>80K+</strong><br>happy birders</div>
+      <div class="meta-divider"></div>
+      <div class="meta-label"><strong>800+</strong><br>bird sounds</div>
     </div>
-  );
-}
-
-function SelectInput({ label, value, onChange, options }) {
-  return (
-    <div style={{ marginBottom: 10 }}>
-      <div style={{ fontSize: 11, color: "#b0b0b0", marginBottom: 3 }}>{label}</div>
-      <select value={value} onChange={(e) => onChange(e.target.value)}
-        style={{
-          width: "100%", padding: "5px 8px", background: "#1a1a2e", color: "#e0e0e0",
-          border: "1px solid #333", borderRadius: 4, fontSize: 11, fontFamily: "inherit"
-        }}>
-        {options.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
-      </select>
-    </div>
-  );
-}
-
-// ─── SECTION COMPONENT ──────────────────────────────────────────────────────
-
-function Section({ title, icon, children, defaultOpen = true }) {
-  const [open, setOpen] = useState(defaultOpen);
-  return (
-    <div style={{ marginBottom: 8 }}>
-      <div
-        onClick={() => setOpen(!open)}
-        style={{
-          display: "flex", alignItems: "center", gap: 6, cursor: "pointer",
-          padding: "6px 0", borderBottom: "1px solid #222", marginBottom: open ? 8 : 0,
-          userSelect: "none",
-        }}
-      >
-        <span style={{ fontSize: 13 }}>{icon}</span>
-        <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#e0e0e0" }}>{title}</span>
-        <span style={{ marginLeft: "auto", fontSize: 10, color: "#666", transition: "transform .2s", transform: open ? "rotate(180deg)" : "rotate(0)" }}>▼</span>
-      </div>
-      {open && <div style={{ paddingLeft: 4 }}>{children}</div>}
-    </div>
-  );
-}
-
-// ─── PATH VISUALIZATION ─────────────────────────────────────────────────────
-
-function TornadoPathViz({ params, result }) {
-  const canvasRef = useRef(null);
-  const animRef = useRef(0);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    const W = canvas.width = canvas.offsetWidth * 2;
-    const H = canvas.height = canvas.offsetHeight * 2;
-    ctx.scale(2, 2);
-    const w = W / 2, h = H / 2;
-
-    let frame = 0;
-    const draw = () => {
-      frame++;
-      ctx.fillStyle = "#0a0a18";
-      ctx.fillRect(0, 0, w, h);
-
-      // Grid
-      ctx.strokeStyle = "#151530";
-      ctx.lineWidth = 0.5;
-      for (let x = 0; x < w; x += 30) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
-      for (let y = 0; y < h; y += 30) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
-
-      // Scale: path fits in view
-      const margin = 60;
-      const pathLenPx = w - margin * 2;
-      const milesPerPx = params.pathLength / pathLenPx;
-      const pathWidthPx = Math.max(8, (params.pathWidth / 1760) / milesPerPx);
-
-      // Direction
-      const dirRad = (params.direction - 90) * Math.PI / 180;
-      const cx = w / 2, cy = h / 2;
-
-      ctx.save();
-      ctx.translate(cx, cy);
-      ctx.rotate(dirRad);
-
-      // Damage swath with gaussian wind profile
-      const segments = 80;
-      const segLen = pathLenPx / segments;
-      const progress = Math.min(frame / 120, 1);
-
-      for (let i = 0; i < segments * progress; i++) {
-        const x = -pathLenPx / 2 + i * segLen;
-        // Gaussian cross-section: wind decays from center
-        for (let j = -20; j <= 20; j++) {
-          const yOff = (j / 20) * pathWidthPx;
-          const gaussFactor = Math.exp(-0.5 * (j / 8) ** 2);
-          const wobble = Math.sin(i * 0.3 + frame * 0.02) * pathWidthPx * 0.1;
-
-          const intensity = gaussFactor * (result.peakWind / 250);
-          const r = Math.round(200 * intensity + 55);
-          const g = Math.round(80 * (1 - intensity) + 20);
-          const b = Math.round(40);
-          const a = gaussFactor * 0.6;
-
-          ctx.fillStyle = `rgba(${r},${g},${b},${a})`;
-          ctx.fillRect(x, yOff + wobble, segLen + 1, pathWidthPx / 18);
-        }
-      }
-
-      // Tornado vortex indicator
-      const vortexX = -pathLenPx / 2 + pathLenPx * ((frame % 240) / 240);
-      if (progress >= 1) {
-        for (let v = 0; v < params.subVortices; v++) {
-          const angle = (frame * 0.1) + (v * Math.PI * 2 / params.subVortices);
-          const vr = pathWidthPx * 0.15;
-          const vx = vortexX + Math.cos(angle) * vr;
-          const vy = Math.sin(angle) * vr;
-
-          const grad = ctx.createRadialGradient(vx, vy, 0, vx, vy, pathWidthPx * 0.3);
-          grad.addColorStop(0, "rgba(255,255,255,0.3)");
-          grad.addColorStop(0.3, result.ef.color + "80");
-          grad.addColorStop(1, "transparent");
-          ctx.fillStyle = grad;
-          ctx.beginPath();
-          ctx.arc(vx, vy, pathWidthPx * 0.3, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      }
-
-      ctx.restore();
-
-      // Scale bar
-      ctx.fillStyle = "#555";
-      ctx.font = "10px 'JetBrains Mono', monospace";
-      const scaleBarMiles = Math.max(1, Math.round(params.pathLength / 5));
-      const scaleBarPx = scaleBarMiles / milesPerPx;
-      ctx.fillRect(20, h - 30, scaleBarPx, 2);
-      ctx.fillText(`${scaleBarMiles} mi`, 20, h - 15);
-
-      // Direction arrow
-      ctx.fillStyle = "#888";
-      ctx.font = "10px sans-serif";
-      const arrowX = w - 50, arrowY = 30;
-      ctx.save();
-      ctx.translate(arrowX, arrowY);
-      ctx.rotate(dirRad);
-      ctx.fillStyle = "#ef5350";
-      ctx.beginPath();
-      ctx.moveTo(0, -12);
-      ctx.lineTo(6, 8);
-      ctx.lineTo(-6, 8);
-      ctx.fill();
-      ctx.restore();
-      ctx.fillStyle = "#888";
-      ctx.fillText(`${params.direction}°`, arrowX - 8, arrowY + 22);
-
-      // Labels
-      ctx.fillStyle = result.ef.color;
-      ctx.font = "bold 14px 'JetBrains Mono', monospace";
-      ctx.fillText(`${result.ef.rating} — ${result.peakWind} mph peak`, 20, 25);
-      ctx.fillStyle = "#888";
-      ctx.font = "10px 'JetBrains Mono', monospace";
-      ctx.fillText(`Path: ${params.pathLength} mi × ${params.pathWidth} yd | Area: ${result.pathAreaSqMi} sq mi`, 20, 42);
-
-      animRef.current = requestAnimationFrame(draw);
-    };
-
-    draw();
-    return () => cancelAnimationFrame(animRef.current);
-  }, [params, result]);
-
-  return (
-    <canvas ref={canvasRef} style={{ width: "100%", height: "100%", borderRadius: 8, display: "block" }} />
-  );
-}
-
-// ─── STAT CARD ──────────────────────────────────────────────────────────────
-
-function Stat({ label, value, sub, color = "#e0e0e0", big }) {
-  return (
-    <div style={{
-      background: "#12122a", borderRadius: 8, padding: big ? "14px 16px" : "10px 12px",
-      border: "1px solid #1e1e3a", flex: 1, minWidth: big ? 140 : 100,
-    }}>
-      <div style={{ fontSize: 10, color: "#777", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>{label}</div>
-      <div style={{ fontSize: big ? 22 : 16, fontWeight: 800, color, fontFamily: "'JetBrains Mono', monospace" }}>{value}</div>
-      {sub && <div style={{ fontSize: 9, color: "#555", marginTop: 2 }}>{sub}</div>}
-    </div>
-  );
-}
-
-// ─── BAR CHART ──────────────────────────────────────────────────────────────
-
-function MiniBar({ items, maxVal }) {
-  const max = maxVal || Math.max(...items.map((i) => i.value), 1);
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-      {items.map((item, idx) => (
-        <div key={idx}>
-          <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10, color: "#999", marginBottom: 2 }}>
-            <span>{item.label}</span>
-            <span style={{ fontFamily: "'JetBrains Mono', monospace", color: "#ccc" }}>{item.display || numFmt(item.value)}</span>
+  </div>
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="ps-header">
+          <span class="ps-title">AvianCall</span>
+          <svg width="18" height="18" fill="none" stroke="#6a8f6c" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
+        </div>
+        <div class="ps-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
+          Search birds...
+        </div>
+        <div class="ps-list">
+          <div class="ps-item">
+            <div class="ps-icon">🦜</div>
+            <div class="ps-info">
+              <div class="ps-bird">Scarlet Macaw</div>
+              <div class="ps-region">Central America</div>
+            </div>
+            <div class="ps-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
           </div>
-          <div style={{ height: 6, background: "#1a1a2e", borderRadius: 3, overflow: "hidden" }}>
-            <div style={{
-              height: "100%", borderRadius: 3,
-              width: `${Math.max(1, (item.value / max) * 100)}%`,
-              background: item.color || "#ef5350",
-              transition: "width 0.5s ease",
-            }} />
+          <div class="ps-item">
+            <div class="ps-icon">🦅</div>
+            <div class="ps-info">
+              <div class="ps-bird">Bald Eagle</div>
+              <div class="ps-region">North America</div>
+            </div>
+            <div class="ps-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+          </div>
+          <div class="ps-item">
+            <div class="ps-icon">🦆</div>
+            <div class="ps-info">
+              <div class="ps-bird">Northern Pintail</div>
+              <div class="ps-region">Wetlands, Global</div>
+            </div>
+            <div class="ps-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+          </div>
+          <div class="ps-item">
+            <div class="ps-icon">🦉</div>
+            <div class="ps-info">
+              <div class="ps-bird">Great Horned Owl</div>
+              <div class="ps-region">Americas</div>
+            </div>
+            <div class="ps-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+          </div>
+          <div class="ps-item">
+            <div class="ps-icon">🐦</div>
+            <div class="ps-info">
+              <div class="ps-bird">Eastern Screech-Owl</div>
+              <div class="ps-region">Eastern North America</div>
+            </div>
+            <div class="ps-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
           </div>
         </div>
-      ))}
-    </div>
-  );
-}
-
-// ─── HISTORICAL COMPARISON ──────────────────────────────────────────────────
-
-function HistoricalComparison({ result }) {
-  const events = [...HISTORICAL, {
-    name: "YOUR SIMULATION",
-    ef: result.efIndex,
-    fatalities: result.fatalities,
-    injuries: result.injuries,
-    damage: result.totalEconomicImpact,
-    pathLength: 0,
-    pathWidth: 0,
-  }].sort((a, b) => b.damage - a.damage);
-
-  const maxDmg = Math.max(...events.map((e) => e.damage));
-
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-      {events.map((ev, i) => {
-        const isSim = ev.name === "YOUR SIMULATION";
-        return (
-          <div key={i} style={{
-            display: "flex", alignItems: "center", gap: 8, padding: "4px 8px",
-            background: isSim ? "#2a1a1a" : "transparent", borderRadius: 4,
-            border: isSim ? "1px solid #ef535066" : "1px solid transparent",
-          }}>
-            <div style={{ width: 80, fontSize: 9, color: isSim ? "#ef5350" : "#888", fontWeight: isSim ? 700 : 400 }}>
-              {ev.name}
-            </div>
-            <div style={{ flex: 1, height: 5, background: "#1a1a2e", borderRadius: 3, overflow: "hidden" }}>
-              <div style={{
-                height: "100%", borderRadius: 3, transition: "width 0.5s",
-                width: `${(ev.damage / maxDmg) * 100}%`,
-                background: isSim ? "#ef5350" : EF_SCALE[Math.min(ev.ef, 5)].color,
-              }} />
-            </div>
-            <div style={{ width: 55, fontSize: 9, color: "#aaa", textAlign: "right", fontFamily: "'JetBrains Mono', monospace" }}>
-              {fmt(ev.damage)}
-            </div>
-            <div style={{ width: 35, fontSize: 9, color: "#ef5350", textAlign: "right", fontFamily: "'JetBrains Mono', monospace" }}>
-              {ev.fatalities}☠
-            </div>
+        <div class="ps-now-playing">
+          <div class="ps-np-icon">🦜</div>
+          <div class="ps-np-info">
+            <div class="ps-np-name">Scarlet Macaw</div>
+            <div class="ps-np-sub">Now playing</div>
           </div>
-        );
-      })}
-    </div>
-  );
-}
-
-// ─── PRESETS ─────────────────────────────────────────────────────────────────
-
-const PRESETS = {
-  rural_ef3: {
-    label: "Rural EF3",
-    windSpeed: 150, pressureDeficit: 80, pathLength: 15, pathWidth: 600,
-    forwardSpeed: 40, direction: 225, rainfall: 2, hailSize: 2, subVortices: 1, lifespan: 20,
-    terrain: "flat_plains", timeOfDay: "afternoon", season: "spring",
-    housingDensity: 20, mobileHomePct: 25, woodFramePct: 55, brickPct: 15, concretePct: 5,
-    powerLinesPerMile: 3, cellTowers: 5, bridges: 2, waterTowers: 1, gasLinesPerMile: 1,
-    vehiclesPerMile: 5,
-    cropType: "corn", growthStage: "mid_season", cropAcresPct: 70,
-    popDensity: 30, basementPct: 20, shelterPct: 5, warningLeadTime: 15, preparedness: 0.5,
-    livestockDensity: 15,
-  },
-  suburban_ef4: {
-    label: "Suburban EF4",
-    windSpeed: 180, pressureDeficit: 100, pathLength: 20, pathWidth: 1200,
-    forwardSpeed: 45, direction: 230, rainfall: 3, hailSize: 3, subVortices: 3, lifespan: 30,
-    terrain: "rolling_hills", timeOfDay: "afternoon", season: "spring",
-    housingDensity: 500, mobileHomePct: 10, woodFramePct: 60, brickPct: 25, concretePct: 5,
-    powerLinesPerMile: 15, cellTowers: 30, bridges: 8, waterTowers: 5, gasLinesPerMile: 8,
-    vehiclesPerMile: 80,
-    cropType: "none", growthStage: "mid_season", cropAcresPct: 10,
-    popDensity: 2500, basementPct: 40, shelterPct: 10, warningLeadTime: 20, preparedness: 0.7,
-    livestockDensity: 0,
-  },
-  urban_ef5: {
-    label: "Urban EF5",
-    windSpeed: 250, pressureDeficit: 130, pathLength: 25, pathWidth: 1800,
-    forwardSpeed: 50, direction: 240, rainfall: 4, hailSize: 4, subVortices: 5, lifespan: 40,
-    terrain: "urban", timeOfDay: "night", season: "spring",
-    housingDensity: 2000, mobileHomePct: 5, woodFramePct: 40, brickPct: 35, concretePct: 20,
-    powerLinesPerMile: 30, cellTowers: 80, bridges: 20, waterTowers: 10, gasLinesPerMile: 20,
-    vehiclesPerMile: 200,
-    cropType: "none", growthStage: "mid_season", cropAcresPct: 0,
-    popDensity: 8000, basementPct: 30, shelterPct: 15, warningLeadTime: 10, preparedness: 0.6,
-    livestockDensity: 0,
-  },
-  joplin_2011: {
-    label: "Joplin 2011",
-    windSpeed: 225, pressureDeficit: 120, pathLength: 22, pathWidth: 1760,
-    forwardSpeed: 32, direction: 267, rainfall: 2, hailSize: 2.5, subVortices: 4, lifespan: 38,
-    terrain: "urban", timeOfDay: "evening", season: "spring",
-    housingDensity: 1200, mobileHomePct: 12, woodFramePct: 55, brickPct: 25, concretePct: 8,
-    powerLinesPerMile: 20, cellTowers: 40, bridges: 10, waterTowers: 6, gasLinesPerMile: 12,
-    vehiclesPerMile: 120,
-    cropType: "none", growthStage: "mid_season", cropAcresPct: 5,
-    popDensity: 4000, basementPct: 25, shelterPct: 8, warningLeadTime: 17, preparedness: 0.5,
-    livestockDensity: 0,
-  },
-};
-
-// ─── MAIN APP ───────────────────────────────────────────────────────────────
-
-function TornadoSimulator() {
-  const [params, setParams] = useState(PRESETS.suburban_ef4);
-  const [activeTab, setActiveTab] = useState("overview");
-
-  const set = useCallback((key) => (val) => setParams((p) => ({ ...p, [key]: val })), []);
-
-  // Auto-balance housing percentages
-  const setHousingPct = useCallback((key, val) => {
-    setParams((p) => {
-      const others = ["mobileHomePct", "woodFramePct", "brickPct", "concretePct"].filter((k) => k !== key);
-      const remaining = 100 - val;
-      const currentOthersTotal = others.reduce((s, k) => s + p[k], 0);
-      const newParams = { ...p, [key]: val };
-      if (currentOthersTotal > 0) {
-        others.forEach((k) => { newParams[k] = Math.round((p[k] / currentOthersTotal) * remaining); });
-        // Fix rounding
-        const total = val + others.reduce((s, k) => s + newParams[k], 0);
-        if (total !== 100) newParams[others[0]] += 100 - total;
-      }
-      return newParams;
-    });
-  }, []);
-
-  const result = useMemo(() => runSimulation(params), [params]);
-
-  const loadPreset = (key) => setParams(PRESETS[key]);
-
-  const tabs = ["overview", "structures", "casualties", "economic", "historical"];
-
-  return (
-    <div style={{
-      fontFamily: "'Inter', 'Segoe UI', sans-serif", background: "#0a0a18", color: "#e0e0e0",
-      height: "100vh", display: "flex", flexDirection: "column", overflow: "hidden",
-    }}>
-      {/* GOOGLE FONTS */}
-      <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-
-      {/* HEADER */}
-      <div style={{
-        padding: "10px 16px", borderBottom: "1px solid #1e1e3a",
-        display: "flex", alignItems: "center", justifyContent: "space-between",
-        background: "linear-gradient(180deg, #12122a 0%, #0a0a18 100%)",
-        flexShrink: 0,
-      }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <span style={{ fontSize: 22 }}>🌪️</span>
-          <div>
-            <div style={{ fontSize: 14, fontWeight: 800, letterSpacing: "0.04em", color: "#fff" }}>TORNADO SIMULATOR</div>
-            <div style={{ fontSize: 9, color: "#666", letterSpacing: "0.1em" }}>MULTI-VARIABLE DAMAGE MODELER</div>
-          </div>
-        </div>
-        <div style={{ display: "flex", gap: 4 }}>
-          {Object.entries(PRESETS).map(([key, preset]) => (
-            <button key={key} onClick={() => loadPreset(key)} style={{
-              padding: "4px 10px", fontSize: 9, background: "#1a1a2e", border: "1px solid #333",
-              borderRadius: 4, color: "#aaa", cursor: "pointer", fontWeight: 600,
-              letterSpacing: "0.04em",
-            }}>
-              {preset.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* MAIN LAYOUT */}
-      <div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
-
-        {/* LEFT PANEL - Controls */}
-        <div style={{
-          width: 260, borderRight: "1px solid #1e1e3a", overflowY: "auto",
-          padding: "12px 14px", flexShrink: 0,
-          scrollbarWidth: "thin", scrollbarColor: "#333 transparent",
-        }}>
-          <Section title="Storm Parameters" icon="⚡" defaultOpen={true}>
-            <Slider label="Wind Speed" value={params.windSpeed} onChange={set("windSpeed")} min={65} max={320} unit=" mph" />
-            <Slider label="Pressure Deficit" value={params.pressureDeficit} onChange={set("pressureDeficit")} min={10} max={200} unit=" mbar" />
-            <Slider label="Path Length" value={params.pathLength} onChange={set("pathLength")} min={0.5} max={250} step={0.5} unit=" mi" />
-            <Slider label="Path Width" value={params.pathWidth} onChange={set("pathWidth")} min={50} max={5000} step={10} unit=" yd" />
-            <Slider label="Forward Speed" value={params.forwardSpeed} onChange={set("forwardSpeed")} min={5} max={80} unit=" mph" />
-            <Slider label="Direction" value={params.direction} onChange={set("direction")} min={0} max={359} unit="°" />
-            <Slider label="Rainfall" value={params.rainfall} onChange={set("rainfall")} min={0} max={10} step={0.5} unit=" in/hr" />
-            <Slider label="Hail Size" value={params.hailSize} onChange={set("hailSize")} min={0} max={6} step={0.25} unit=" in" />
-            <Slider label="Sub-Vortices" value={params.subVortices} onChange={set("subVortices")} min={1} max={8} />
-            <Slider label="Lifespan" value={params.lifespan} onChange={set("lifespan")} min={1} max={120} unit=" min" />
-          </Section>
-
-          <Section title="Environment" icon="🌍" defaultOpen={false}>
-            <SelectInput label="Terrain" value={params.terrain} onChange={set("terrain")}
-              options={[["flat_plains", "Flat Plains"], ["rolling_hills", "Rolling Hills"], ["urban", "Urban"], ["forested", "Forested"]]} />
-            <SelectInput label="Time of Day" value={params.timeOfDay} onChange={set("timeOfDay")}
-              options={[["morning", "Morning"], ["afternoon", "Afternoon"], ["evening", "Evening"], ["night", "Night (2.5× lethality)"]]} />
-            <SelectInput label="Season" value={params.season} onChange={set("season")}
-              options={[["spring", "Spring"], ["summer", "Summer"], ["fall", "Fall"], ["winter", "Winter"]]} />
-          </Section>
-
-          <Section title="Built Environment" icon="🏘️" defaultOpen={false}>
-            <Slider label="Housing Density" value={params.housingDensity} onChange={set("housingDensity")} min={1} max={5000} unit=" /sq mi" />
-            <Slider label="Mobile Homes" value={params.mobileHomePct} onChange={(v) => setHousingPct("mobileHomePct", v)} min={0} max={100} unit="%" />
-            <Slider label="Wood Frame" value={params.woodFramePct} onChange={(v) => setHousingPct("woodFramePct", v)} min={0} max={100} unit="%" />
-            <Slider label="Brick/Masonry" value={params.brickPct} onChange={(v) => setHousingPct("brickPct", v)} min={0} max={100} unit="%" />
-            <Slider label="Reinforced Concrete" value={params.concretePct} onChange={(v) => setHousingPct("concretePct", v)} min={0} max={100} unit="%" />
-          </Section>
-
-          <Section title="Infrastructure" icon="🔌" defaultOpen={false}>
-            <Slider label="Power Lines" value={params.powerLinesPerMile} onChange={set("powerLinesPerMile")} min={0} max={50} unit="/mi" />
-            <Slider label="Cell Towers" value={params.cellTowers} onChange={set("cellTowers")} min={0} max={200} unit=" total" />
-            <Slider label="Bridges" value={params.bridges} onChange={set("bridges")} min={0} max={50} />
-            <Slider label="Water Towers" value={params.waterTowers} onChange={set("waterTowers")} min={0} max={30} />
-            <Slider label="Gas Lines" value={params.gasLinesPerMile} onChange={set("gasLinesPerMile")} min={0} max={40} unit="/mi" />
-            <Slider label="Vehicles on Road" value={params.vehiclesPerMile} onChange={set("vehiclesPerMile")} min={0} max={500} unit="/mi" />
-          </Section>
-
-          <Section title="Agriculture" icon="🌾" defaultOpen={false}>
-            <SelectInput label="Crop Type" value={params.cropType} onChange={set("cropType")}
-              options={[["none", "None"], ["corn", "Corn ($950/ac)"], ["wheat", "Wheat ($520/ac)"], ["soybeans", "Soybeans ($600/ac)"], ["cotton", "Cotton ($780/ac)"]]} />
-            <SelectInput label="Growth Stage" value={params.growthStage} onChange={set("growthStage")}
-              options={[["planting", "Planting (30% value)"], ["mid_season", "Mid-Season (70% value)"], ["near_harvest", "Near Harvest (100% value)"]]} />
-            <Slider label="Crop Coverage" value={params.cropAcresPct} onChange={set("cropAcresPct")} min={0} max={100} unit="%" />
-            <Slider label="Livestock Density" value={params.livestockDensity} onChange={set("livestockDensity")} min={0} max={100} unit=" head/sq mi" />
-          </Section>
-
-          <Section title="Population & Preparedness" icon="👥" defaultOpen={false}>
-            <Slider label="Population Density" value={params.popDensity} onChange={set("popDensity")} min={1} max={15000} unit="/sq mi" />
-            <Slider label="Have Basements" value={params.basementPct} onChange={set("basementPct")} min={0} max={80} unit="%" />
-            <Slider label="Storm Shelters" value={params.shelterPct} onChange={set("shelterPct")} min={0} max={50} unit="%" />
-            <Slider label="Warning Lead Time" value={params.warningLeadTime} onChange={set("warningLeadTime")} min={0} max={60} unit=" min" />
-            <Slider label="Preparedness Index" value={params.preparedness} onChange={set("preparedness")} min={0} max={1} step={0.05}
-              info="Community education, siren coverage, weather app penetration" />
-          </Section>
-
-          {/* Model notes */}
-          <div style={{ fontSize: 8, color: "#444", lineHeight: 1.5, marginTop: 12, padding: "8px 0", borderTop: "1px solid #1a1a2e" }}>
-            <strong style={{ color: "#555" }}>MODEL REFERENCES:</strong><br />
-            Fragility curves: HAZUS-MH / TTU Wind Engineering<br />
-            Casualty model: Simmons & Sutter (2005), Ashley (2007)<br />
-            Warning effectiveness: ~1.8% reduction per minute lead time<br />
-            Injury:fatality ratio: ~15:1 (NOAA Storm Data)<br />
-            Night lethality multiplier: 2.5× (Ashley 2007)
-          </div>
-        </div>
-
-        {/* CENTER + RIGHT */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-
-          {/* VISUALIZATION */}
-          <div style={{ height: "42%", padding: 12, flexShrink: 0 }}>
-            <TornadoPathViz params={params} result={result} />
-          </div>
-
-          {/* TABS */}
-          <div style={{
-            display: "flex", borderBottom: "1px solid #1e1e3a", borderTop: "1px solid #1e1e3a",
-            padding: "0 12px", flexShrink: 0, background: "#0e0e22",
-          }}>
-            {tabs.map((tab) => (
-              <button key={tab} onClick={() => setActiveTab(tab)} style={{
-                padding: "8px 14px", fontSize: 10, fontWeight: 600, textTransform: "uppercase",
-                letterSpacing: "0.08em", background: "none", border: "none", cursor: "pointer",
-                color: activeTab === tab ? "#ef5350" : "#666",
-                borderBottom: activeTab === tab ? "2px solid #ef5350" : "2px solid transparent",
-              }}>
-                {tab}
-              </button>
-            ))}
-          </div>
-
-          {/* RESULTS PANEL */}
-          <div style={{ flex: 1, overflowY: "auto", padding: 14, scrollbarWidth: "thin", scrollbarColor: "#333 transparent" }}>
-
-            {activeTab === "overview" && (
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                {/* EF Badge */}
-                <div style={{
-                  display: "flex", alignItems: "center", gap: 14, padding: "14px 18px",
-                  background: `linear-gradient(135deg, ${result.ef.color}15, #12122a)`,
-                  borderRadius: 10, border: `1px solid ${result.ef.color}40`,
-                }}>
-                  <div style={{
-                    fontSize: 36, fontWeight: 900, color: result.ef.color,
-                    fontFamily: "'JetBrains Mono', monospace", lineHeight: 1,
-                  }}>
-                    {result.ef.rating}
-                  </div>
-                  <div>
-                    <div style={{ fontSize: 13, fontWeight: 700, color: "#fff" }}>{result.ef.label} Damage</div>
-                    <div style={{ fontSize: 10, color: "#888" }}>
-                      Peak: {result.peakWind} mph | Effective: {result.effectiveWind} mph | Exposure: {result.exposureDuration} min
-                    </div>
-                  </div>
-                </div>
-
-                {/* Key stats */}
-                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                  <Stat big label="Fatalities" value={numFmt(result.fatalities)} color="#ef5350" sub={`${numFmt(result.populationInPath)} in path`} />
-                  <Stat big label="Injuries" value={numFmt(result.injuries)} color="#ffb74d" sub="~15:1 ratio" />
-                  <Stat big label="Total Damage" value={fmt(result.totalEconomicImpact)} color="#4fc3f7" sub="All categories" />
-                  <Stat big label="Destroyed" value={numFmt(result.totalDestroyed)} color="#ff8a65" sub={`of ${numFmt(result.totalStructures)}`} />
-                </div>
-
-                {/* Damage breakdown bar */}
-                <div style={{ background: "#12122a", borderRadius: 8, padding: 14, border: "1px solid #1e1e3a" }}>
-                  <div style={{ fontSize: 10, fontWeight: 700, color: "#888", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 10 }}>
-                    Damage Breakdown
-                  </div>
-                  <MiniBar items={[
-                    { label: "Residential", value: result.residentialLoss, display: fmt(result.residentialLoss), color: "#ef5350" },
-                    { label: "Infrastructure", value: result.infraLoss, display: fmt(result.infraLoss), color: "#ffb74d" },
-                    { label: "Vehicles", value: result.vehicleLoss, display: fmt(result.vehicleLoss), color: "#ff8a65" },
-                    { label: "Crops", value: result.cropLoss, display: fmt(result.cropLoss), color: "#81c784" },
-                    { label: "Livestock", value: result.livestockLoss, display: fmt(result.livestockLoss), color: "#a5d6a7" },
-                    { label: "Flood Damage", value: result.floodDamage, display: fmt(result.floodDamage), color: "#4fc3f7" },
-                    { label: "Emergency Response", value: result.emergencyResponseCost, display: fmt(result.emergencyResponseCost), color: "#ce93d8" },
-                    { label: "Business Interruption", value: result.businessInterruption, display: fmt(result.businessInterruption), color: "#90a4ae" },
-                  ]} />
-                </div>
-              </div>
-            )}
-
-            {activeTab === "structures" && (
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                  <Stat label="Total Structures" value={numFmt(result.totalStructures)} />
-                  <Stat label="Destroyed" value={numFmt(result.totalDestroyed)} color="#ef5350" />
-                  <Stat label="Damaged" value={numFmt(result.totalDamaged)} color="#ffb74d" />
-                  <Stat label="Residential Loss" value={fmt(result.residentialLoss)} color="#4fc3f7" />
-                </div>
-                {Object.entries(result.structureDamage).map(([type, data]) => (
-                  <div key={type} style={{ background: "#12122a", borderRadius: 8, padding: 12, border: "1px solid #1e1e3a" }}>
-                    <div style={{ fontSize: 11, fontWeight: 700, color: "#ccc", marginBottom: 8, textTransform: "capitalize" }}>
-                      {type.replace(/_/g, " ")} — {data.total} structures
-                    </div>
-                    <MiniBar items={[
-                      { label: "Destroyed", value: data.destroyed, color: "#ef5350" },
-                      { label: "Damaged", value: data.destroyed + data.damaged, color: "#ffb74d" },
-                    ]} maxVal={data.total} />
-                    <div style={{ fontSize: 9, color: "#555", marginTop: 6 }}>
-                      Fragility at {result.peakWind} mph: {(interpolateFragility(type, result.peakWind) * 100).toFixed(1)}% destruction probability
-                    </div>
-                  </div>
-                ))}
-
-                <div style={{ background: "#12122a", borderRadius: 8, padding: 12, border: "1px solid #1e1e3a" }}>
-                  <div style={{ fontSize: 10, fontWeight: 700, color: "#888", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8 }}>Infrastructure</div>
-                  <MiniBar items={[
-                    { label: "Power Lines (mi)", value: result.powerLinesDestroyed, color: "#ffb74d" },
-                    { label: "Cell Towers", value: result.cellTowersDestroyed, color: "#ff8a65" },
-                    { label: "Bridges", value: result.bridgesDestroyed, color: "#ef5350" },
-                    { label: "Water Towers", value: result.waterTowersDestroyed, color: "#4fc3f7" },
-                    { label: "Gas Lines (mi)", value: result.gasLinesDestroyed, color: "#ce93d8" },
-                    { label: "Vehicles", value: result.vehiclesDestroyed, color: "#90a4ae" },
-                  ]} />
-                </div>
-              </div>
-            )}
-
-            {activeTab === "casualties" && (
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                  <Stat big label="Population in Path" value={numFmt(result.populationInPath)} />
-                  <Stat big label="Fatalities" value={numFmt(result.fatalities)} color="#ef5350" />
-                  <Stat big label="Injuries" value={numFmt(result.injuries)} color="#ffb74d" />
-                </div>
-
-                <div style={{ background: "#12122a", borderRadius: 8, padding: 14, border: "1px solid #1e1e3a" }}>
-                  <div style={{ fontSize: 10, fontWeight: 700, color: "#888", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 10 }}>
-                    Casualty Modifiers
-                  </div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 8, fontSize: 11 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}>
-                      <span style={{ color: "#999" }}>Warning reduction ({params.warningLeadTime} min lead time)</span>
-                      <span style={{ color: result.warningReduction < 0.7 ? "#81c784" : "#ffb74d", fontFamily: "'JetBrains Mono', monospace", fontWeight: 700 }}>
-                        {((1 - result.warningReduction) * 100).toFixed(0)}% fewer deaths
-                      </span>
-                    </div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}>
-                      <span style={{ color: "#999" }}>Time of day ({params.timeOfDay})</span>
-                      <span style={{ color: result.nightMult > 1 ? "#ef5350" : "#81c784", fontFamily: "'JetBrains Mono', monospace", fontWeight: 700 }}>
-                        {result.nightMult}× multiplier
-                      </span>
-                    </div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}>
-                      <span style={{ color: "#999" }}>Preparedness index ({params.preparedness})</span>
-                      <span style={{ color: "#81c784", fontFamily: "'JetBrains Mono', monospace", fontWeight: 700 }}>
-                        {((1 - result.preparednessMult) * 100).toFixed(0)}% reduction
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <div style={{ background: "#12122a", borderRadius: 8, padding: 14, border: "1px solid #1e1e3a" }}>
-                  <div style={{ fontSize: 10, fontWeight: 700, color: "#888", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 10 }}>
-                    Shelter Distribution Effectiveness
-                  </div>
-                  <MiniBar items={[
-                    { label: `No shelter (${params.mobileHomePct}%)`, value: FATALITY_RATES.no_shelter[`ef${result.efIndex}`] || 0, display: `${((FATALITY_RATES.no_shelter[`ef${result.efIndex}`] || 0) * 100).toFixed(2)}% fatality rate`, color: "#ef5350" },
-                    { label: `Interior room`, value: FATALITY_RATES.interior_room[`ef${result.efIndex}`] || 0, display: `${((FATALITY_RATES.interior_room[`ef${result.efIndex}`] || 0) * 100).toFixed(3)}% fatality rate`, color: "#ffb74d" },
-                    { label: `Basement (${params.basementPct}%)`, value: FATALITY_RATES.basement[`ef${result.efIndex}`] || 0, display: `${((FATALITY_RATES.basement[`ef${result.efIndex}`] || 0) * 100).toFixed(4)}% fatality rate`, color: "#81c784" },
-                    { label: `Storm shelter (${params.shelterPct}%)`, value: FATALITY_RATES.storm_shelter[`ef${result.efIndex}`] || 0, display: `${((FATALITY_RATES.storm_shelter[`ef${result.efIndex}`] || 0) * 100).toFixed(4)}% fatality rate`, color: "#4fc3f7" },
-                  ]} />
-                </div>
-
-                {result.livestockLost > 0 && (
-                  <div style={{ display: "flex", gap: 8 }}>
-                    <Stat label="Livestock Lost" value={numFmt(result.livestockLost)} color="#ff8a65" />
-                    <Stat label="Livestock Loss" value={fmt(result.livestockLoss)} color="#ffb74d" />
-                  </div>
-                )}
-              </div>
-            )}
-
-            {activeTab === "economic" && (
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                <div style={{
-                  background: `linear-gradient(135deg, #4fc3f715, #12122a)`,
-                  borderRadius: 10, border: "1px solid #4fc3f740", padding: "14px 18px",
-                  display: "flex", alignItems: "center", gap: 14,
-                }}>
-                  <div>
-                    <div style={{ fontSize: 10, color: "#888" }}>TOTAL ECONOMIC IMPACT</div>
-                    <div style={{ fontSize: 28, fontWeight: 900, color: "#4fc3f7", fontFamily: "'JetBrains Mono', monospace" }}>
-                      {fmt(result.totalEconomicImpact)}
-                    </div>
-                  </div>
-                </div>
-
-                <div style={{ background: "#12122a", borderRadius: 8, padding: 14, border: "1px solid #1e1e3a" }}>
-                  <div style={{ fontSize: 10, fontWeight: 700, color: "#888", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 10 }}>
-                    Cost Breakdown
-                  </div>
-                  <MiniBar items={[
-                    { label: "Residential", value: result.residentialLoss, display: fmt(result.residentialLoss), color: "#ef5350" },
-                    { label: "Infrastructure", value: result.infraLoss, display: fmt(result.infraLoss), color: "#ffb74d" },
-                    { label: "Vehicles", value: result.vehicleLoss, display: fmt(result.vehicleLoss), color: "#ff8a65" },
-                    { label: "Crops & Livestock", value: result.cropLoss + result.livestockLoss, display: fmt(result.cropLoss + result.livestockLoss), color: "#81c784" },
-                    { label: "Flood Damage", value: result.floodDamage, display: fmt(result.floodDamage), color: "#4fc3f7" },
-                    { label: "Emergency Response", value: result.emergencyResponseCost, display: fmt(result.emergencyResponseCost), color: "#ce93d8" },
-                    { label: "Business Interruption", value: result.businessInterruption, display: fmt(result.businessInterruption), color: "#90a4ae" },
-                  ]} />
-                </div>
-
-                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                  <Stat label="Per Structure" value={result.totalStructures > 0 ? fmt(result.totalEconomicImpact / result.totalStructures) : "$0"} />
-                  <Stat label="Per Capita" value={result.populationInPath > 0 ? fmt(result.totalEconomicImpact / result.populationInPath) : "$0"} />
-                  <Stat label="Per Mile of Path" value={fmt(result.totalEconomicImpact / params.pathLength)} />
-                </div>
-
-                {result.cropAcres > 0 && (
-                  <div style={{ background: "#12122a", borderRadius: 8, padding: 12, border: "1px solid #1e1e3a" }}>
-                    <div style={{ fontSize: 10, fontWeight: 700, color: "#888", marginBottom: 6 }}>AGRICULTURAL</div>
-                    <div style={{ fontSize: 11, color: "#aaa" }}>
-                      {numFmt(result.cropAcres)} acres of {params.cropType} affected ({params.growthStage.replace("_", " ")})
-                    </div>
-                    <div style={{ fontSize: 11, color: "#81c784", fontWeight: 700, fontFamily: "'JetBrains Mono', monospace" }}>
-                      {fmt(result.cropLoss)} crop loss + {fmt(result.livestockLoss)} livestock
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {activeTab === "historical" && (
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                <div style={{ fontSize: 11, color: "#888", marginBottom: 4 }}>
-                  Your simulated tornado compared to historical events by total damage:
-                </div>
-                <div style={{ background: "#12122a", borderRadius: 8, padding: 14, border: "1px solid #1e1e3a" }}>
-                  <HistoricalComparison result={result} />
-                </div>
-                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                  {HISTORICAL.map((h, i) => (
-                    <div key={i} style={{
-                      background: "#12122a", borderRadius: 6, padding: "8px 10px",
-                      border: "1px solid #1e1e3a", flex: "1 1 140px", minWidth: 140,
-                    }}>
-                      <div style={{ fontSize: 10, fontWeight: 700, color: EF_SCALE[Math.min(h.ef, 5)].color }}>{h.name}</div>
-                      <div style={{ fontSize: 9, color: "#666", marginTop: 2 }}>
-                        EF{h.ef} | {h.fatalities} killed | {numFmt(h.injuries)} injured | {fmt(h.damage)}
-                      </div>
-                      <div style={{ fontSize: 9, color: "#555" }}>
-                        {h.pathLength} mi × {h.pathWidth} yd
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+          <div class="ps-np-wave">
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
           </div>
         </div>
       </div>
     </div>
-  );
-}
+  </div>
+</section>
 
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="section-label">Features</div>
+  <h2>Everything a birder needs</h2>
+  <p class="section-sub">From backyard sparrows to exotic jungle birds — AvianCall has every call, chirp, and song you're looking for.</p>
+  <div class="features-grid">
+    <div class="feat-card">
+      <div class="feat-icon">🎙️</div>
+      <h3>Pro-quality recordings</h3>
+      <p>Every sound recorded in the field by professional ornithologists. No synthesized audio — 100% real.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">📍</div>
+      <h3>Region filtering</h3>
+      <p>Browse birds by continent, country, or biome. Find exactly what you'd hear on your next hike.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🔍</div>
+      <h3>Smart search</h3>
+      <p>Search by common name, scientific name, or habitat. Instant results as you type.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">📥</div>
+      <h3>Offline playback</h3>
+      <p>Download your favorites and listen anywhere — no signal needed in the field.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">❤️</div>
+      <h3>Personal collection</h3>
+      <p>Save your favorite birds and build your own personal sightings list with notes.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🌿</div>
+      <h3>New birds weekly</h3>
+      <p>Our team of ornithologists adds fresh recordings every week. The library never stops growing.</p>
+    </div>
+  </div>
+</section>
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <TornadoSimulator />
-  </React.StrictMode>
-);
-  </script>
+<!-- BIRD LIBRARY -->
+<div class="bird-section" id="library">
+<section class="section">
+  <div class="section-label">Sound Library</div>
+  <h2>800+ birds. One app.</h2>
+  <p class="section-sub">A sample of what's inside — from beloved classics to some very unusual specimens.</p>
+  <div class="birds-grid">
+
+    <div class="bird-row">
+      <div class="bird-emoji">🦜</div>
+      <div class="bird-info">
+        <div class="bird-name">Scarlet Macaw</div>
+        <div class="bird-sci">Ara macao</div>
+        <div class="bird-region">🌎 Central & South America</div>
+      </div>
+      <div class="bird-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+    </div>
+
+    <div class="bird-row">
+      <div class="bird-emoji">🦅</div>
+      <div class="bird-info">
+        <div class="bird-name">Bald Eagle</div>
+        <div class="bird-sci">Haliaeetus leucocephalus</div>
+        <div class="bird-region">🌎 North America</div>
+      </div>
+      <div class="bird-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+    </div>
+
+    <div class="bird-row">
+      <div class="bird-emoji">🦉</div>
+      <div class="bird-info">
+        <div class="bird-name">Great Horned Owl</div>
+        <div class="bird-sci">Bubo virginianus</div>
+        <div class="bird-region">🌎 Americas</div>
+      </div>
+      <div class="bird-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+    </div>
+
+    <div class="bird-row">
+      <div class="bird-emoji">🐦</div>
+      <div class="bird-info">
+        <div class="bird-name">Northern Cardinal</div>
+        <div class="bird-sci">Cardinalis cardinalis</div>
+        <div class="bird-region">🌎 Eastern North America</div>
+        <span class="bird-tag tag-featured">Fan favourite</span>
+      </div>
+      <div class="bird-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+    </div>
+
+    <div class="bird-row">
+      <div class="bird-emoji">🦆</div>
+      <div class="bird-info">
+        <div class="bird-name">Mallard Duck</div>
+        <div class="bird-sci">Anas platyrhynchos</div>
+        <div class="bird-region">🌍 Global Wetlands</div>
+      </div>
+      <div class="bird-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+    </div>
+
+    <div class="bird-row">
+      <div class="bird-emoji">🦢</div>
+      <div class="bird-info">
+        <div class="bird-name">Whooper Swan</div>
+        <div class="bird-sci">Cygnus cygnus</div>
+        <div class="bird-region">🌍 Northern Eurasia</div>
+      </div>
+      <div class="bird-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+    </div>
+
+    <div class="bird-row">
+      <div class="bird-emoji">🐦</div>
+      <div class="bird-info">
+        <div class="bird-name">Common Loon</div>
+        <div class="bird-sci">Gavia immer</div>
+        <div class="bird-region">🌎 Northern Lakes</div>
+        <span class="bird-tag tag-featured">Fan favourite</span>
+      </div>
+      <div class="bird-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+    </div>
+
+    <div class="bird-row">
+      <div class="bird-emoji">🦜</div>
+      <div class="bird-info">
+        <div class="bird-name">Kakapo</div>
+        <div class="bird-sci">Strigops habroptilus</div>
+        <div class="bird-region">🌏 New Zealand</div>
+        <span class="bird-tag tag-rare">Rare</span>
+      </div>
+      <div class="bird-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+    </div>
+
+    <!-- PRANK BIRDS START HERE -->
+
+    <div class="bird-row">
+      <div class="bird-emoji">🐦</div>
+      <div class="bird-info">
+        <div class="bird-name">Greater Marsh Groaner</div>
+        <div class="bird-sci">Botaurus horridulus</div>
+        <div class="bird-region">🌎 North American Wetlands</div>
+        <span class="bird-tag tag-rare">Rarely recorded</span>
+      </div>
+      <div class="bird-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+    </div>
+
+    <div class="bird-row">
+      <div class="bird-emoji">🐦</div>
+      <div class="bird-info">
+        <div class="bird-name">Northern Screech Weasel-Bird</div>
+        <div class="bird-sci">Mustela avibus septentrionalis</div>
+        <div class="bird-region">🌎 Canadian Shield</div>
+        <span class="bird-tag tag-new">New</span>
+      </div>
+      <div class="bird-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+    </div>
+
+    <div class="bird-row">
+      <div class="bird-emoji">🐦</div>
+      <div class="bird-info">
+        <div class="bird-name">Pale-Throated Howler Finch</div>
+        <div class="bird-sci">Fringilla ululans</div>
+        <div class="bird-region">🌎 Appalachian Ridge</div>
+        <span class="bird-tag tag-rare">Rare</span>
+      </div>
+      <div class="bird-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+    </div>
+
+    <div class="bird-row">
+      <div class="bird-emoji">🐦</div>
+      <div class="bird-info">
+        <div class="bird-name">Rusty-Bellied Shriek Thrush</div>
+        <div class="bird-sci">Turdus stridulus ferruginus</div>
+        <div class="bird-region">🌎 Great Lakes Region</div>
+        <span class="bird-tag tag-new">New</span>
+      </div>
+      <div class="bird-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+    </div>
+
+    <div class="bird-row">
+      <div class="bird-emoji">🐦</div>
+      <div class="bird-info">
+        <div class="bird-name">Mottled Wailing Crake</div>
+        <div class="bird-sci">Crex lamentans maculosus</div>
+        <div class="bird-region">🌍 Coastal Marshes</div>
+        <span class="bird-tag tag-rare">Rarely recorded</span>
+      </div>
+      <div class="bird-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+    </div>
+
+    <div class="bird-row">
+      <div class="bird-emoji">🐦</div>
+      <div class="bird-info">
+        <div class="bird-name">Eastern Gurgling Stint</div>
+        <div class="bird-sci">Calidris gurgulans orientalis</div>
+        <div class="bird-region">🌎 Atlantic Flyway</div>
+        <span class="bird-tag tag-new">New</span>
+      </div>
+      <div class="bird-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+    </div>
+
+    <div class="bird-row">
+      <div class="bird-emoji">🐦</div>
+      <div class="bird-info">
+        <div class="bird-name">Black-Capped Gobbling Chat</div>
+        <div class="bird-sci">Saxicola gloturans melanocephalus</div>
+        <div class="bird-region">🌎 Midwest Prairie</div>
+        <span class="bird-tag tag-rare">Rare</span>
+      </div>
+      <div class="bird-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+    </div>
+
+  </div>
+  <p style="text-align:center; color: var(--muted); font-size:13px; margin-top:1.5rem;">Showing 16 of 800+ birds · <a href="#" style="color:var(--green)">Browse full library →</a></p>
+</section>
+</div>
+
+<!-- INSTALL -->
+<div class="install-section" id="install">
+  <div class="install-card">
+    <div style="font-size:48px; margin-bottom:1rem;">🐦</div>
+    <h2>Add AvianCall to your iPhone</h2>
+    <p>AvianCall is a free web app — no App Store required. Just add it to your home screen in 3 easy steps and it works like a native app.</p>
+    <div class="install-steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <p>Open this page in <strong>Safari</strong> on your iPhone or iPad</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <p>Tap the <strong>Share</strong> button at the bottom of your browser</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <p>Scroll down and tap <strong>"Add to Home Screen"</strong> then tap Add</p>
+      </div>
+    </div>
+    <a href="https://yourname.github.io/aviancall" class="btn-install">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+      Open in Safari to Install
+    </a>
+    <p class="install-note">Requires iOS 14+. Works on iPhone and iPad. 100% free.</p>
+  </div>
+</div>
+
+<!-- REVIEWS -->
+<section class="section" id="reviews">
+  <div class="section-label">Reviews</div>
+  <h2>Loved by birders worldwide</h2>
+  <p class="section-sub">Join 80,000+ nature lovers who use AvianCall every day.</p>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Incredible library. I was on a trail in Vermont and heard something I'd never heard before — found it in seconds. The sound quality is outstanding."</p>
+      <div class="review-author">Sarah M.</div>
+      <div class="review-handle">Verified user · Vermont</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"I got my whole family into birding because of this app. My kids love pressing play on all the different species. Absolutely worth it."</p>
+      <div class="review-author">James T.</div>
+      <div class="review-handle">Verified user · Oregon</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"The rare species recordings are unlike anything I've found elsewhere. The Marsh Groaner one is… something else. Highly recommend."</p>
+      <div class="review-author">Priya K.</div>
+      <div class="review-handle">Verified user · Ontario, Canada</div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-logo">
+    <img src="https://em-content.zobj.net/source/apple/391/bird_1f426.png" style="width:24px;height:24px;border-radius:6px;" alt="">
+    AvianCall
+  </div>
+  <div style="color:var(--muted); font-size:12px;">© 2024 AvianCall. Made with 🍃 for birders everywhere.</div>
+  <div class="footer-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">GitHub</a>
+    <a href="#">Contact</a>
+  </div>
+</footer>
+
 </body>
 </html>
