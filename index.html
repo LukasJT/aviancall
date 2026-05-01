@@ -2,748 +2,248 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AvianCall – Bird Sounds & Calls</title>
-<link rel="manifest" href="#" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>AvianCall – Bird Sounds</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="AvianCall">
 <link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/391/bird_1f426.png">
+<meta name="theme-color" content="#0d1a10">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=Instrument+Serif:ital@0;1&display=swap');
-
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap');
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --green: #2d6a4f;
     --green-mid: #40916c;
-    --green-light: #d8f3dc;
-    --green-pale: #f0faf2;
-    --amber: #b5451b;
-    --cream: #faf8f3;
-    --dark: #1a2416;
-    --muted: #52635a;
-    --border: #d6e8d0;
+    --accent: #52b788;
+    --bg: #0d1a10;
+    --bg2: #132018;
+    --bg3: #1c2e1f;
+    --border: rgba(255,255,255,0.07);
+    --text: #e8f5ea;
+    --muted: #6a8f6c;
   }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--cream);
-    color: var(--dark);
-    overflow-x: hidden;
-  }
-
-  /* NAV */
-  nav {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(250,248,243,0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 2rem;
-    display: flex; align-items: center; justify-content: space-between;
-    height: 60px;
-  }
-  .nav-logo {
-    display: flex; align-items: center; gap: 10px;
-    font-weight: 600; font-size: 17px; color: var(--dark); text-decoration: none;
-  }
-  .nav-logo img { width: 32px; height: 32px; border-radius: 8px; }
-  .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a { text-decoration: none; color: var(--muted); font-size: 14px; transition: color .2s; }
-  .nav-links a:hover { color: var(--green); }
-  .nav-badge {
-    background: var(--green); color: #fff;
-    font-size: 12px; font-weight: 500; padding: 6px 14px;
-    border-radius: 20px; text-decoration: none;
-    transition: background .2s;
-  }
-  .nav-badge:hover { background: var(--green-mid); }
-
-  /* HERO */
-  .hero {
-    min-height: 88vh;
-    display: grid; grid-template-columns: 1fr 1fr;
-    align-items: center; gap: 4rem;
-    max-width: 1100px; margin: 0 auto;
-    padding: 5rem 2rem 4rem;
-  }
-  .hero-text { }
-  .hero-eyebrow {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: var(--green-light); color: var(--green);
-    font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
-    padding: 6px 14px; border-radius: 20px; margin-bottom: 1.5rem;
-  }
-  .hero-eyebrow span { font-size: 14px; }
-  h1 {
-    font-family: 'Instrument Serif', serif;
-    font-size: clamp(2.8rem, 5vw, 4.2rem);
-    line-height: 1.08;
-    color: var(--dark);
-    margin-bottom: 1.25rem;
-  }
-  h1 em { font-style: italic; color: var(--green-mid); }
-  .hero-sub {
-    font-size: 17px; color: var(--muted); line-height: 1.65;
-    max-width: 460px; margin-bottom: 2.25rem;
-  }
-  .cta-group { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
-  .btn-primary {
-    display: inline-flex; align-items: center; gap: 10px;
-    background: var(--dark); color: #fff;
-    padding: 14px 24px; border-radius: 14px;
-    font-size: 15px; font-weight: 500; text-decoration: none;
-    transition: background .2s, transform .15s;
-    border: none; cursor: pointer;
-  }
-  .btn-primary:hover { background: var(--green); transform: translateY(-1px); }
-  .btn-primary svg { width: 20px; height: 20px; }
-  .btn-secondary {
-    display: inline-flex; align-items: center; gap: 8px;
-    color: var(--muted); font-size: 14px; text-decoration: none;
-    padding: 14px 0;
-  }
-  .hero-meta {
-    margin-top: 2.5rem;
-    display: flex; align-items: center; gap: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--border);
-  }
-  .stars { color: #f4a227; font-size: 14px; }
-  .meta-label { font-size: 13px; color: var(--muted); }
-  .meta-label strong { color: var(--dark); }
-  .meta-divider { width: 1px; height: 24px; background: var(--border); }
-
-  /* PHONE MOCKUP */
-  .phone-wrap {
-    display: flex; justify-content: center; align-items: center;
-    position: relative;
-  }
-  .phone {
-    width: 260px;
-    background: #111;
-    border-radius: 44px;
-    padding: 14px;
-    box-shadow: 0 30px 80px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.05);
-    position: relative;
-  }
-  .phone-notch {
-    width: 100px; height: 28px;
-    background: #111; border-radius: 0 0 18px 18px;
-    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-    z-index: 10;
-  }
-  .phone-screen {
-    background: #0f1a10;
-    border-radius: 32px;
-    overflow: hidden;
-    aspect-ratio: 9/19.5;
-    display: flex; flex-direction: column;
-  }
-  .ps-header {
-    background: #1a2d1c;
-    padding: 40px 16px 14px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .ps-title { color: #fff; font-size: 20px; font-weight: 600; }
-  .ps-search {
-    background: #2a3d2c; border-radius: 10px;
-    padding: 8px 12px; margin: 10px;
-    color: #6a8f6c; font-size: 13px;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .ps-search svg { width: 14px; height: 14px; opacity: .6; }
-  .ps-list { flex: 1; overflow: hidden; padding: 4px 0; }
-  .ps-item {
-    display: flex; align-items: center; gap: 10px;
-    padding: 10px 12px;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-  }
-  .ps-icon { font-size: 24px; }
-  .ps-info { flex: 1; }
-  .ps-bird { color: #e8f5e9; font-size: 13px; font-weight: 500; }
-  .ps-region { color: #5a7a5c; font-size: 11px; margin-top: 1px; }
-  .ps-play {
-    width: 30px; height: 30px;
-    background: #2d6a4f; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .ps-play svg { width: 12px; height: 12px; fill: #fff; margin-left: 1px; }
-  .ps-now-playing {
-    background: #1e3321; padding: 10px 12px;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .ps-np-icon { font-size: 20px; }
-  .ps-np-info { flex: 1; }
-  .ps-np-name { color: #d4edda; font-size: 12px; font-weight: 500; }
-  .ps-np-sub { color: #5a7a5c; font-size: 10px; }
-  .ps-np-wave { display: flex; align-items: center; gap: 2px; }
-  .wave-bar {
-    width: 3px; background: #40916c; border-radius: 2px;
-    animation: waveBob 0.8s ease-in-out infinite;
-  }
-  .wave-bar:nth-child(1) { height: 8px; animation-delay: 0s; }
-  .wave-bar:nth-child(2) { height: 14px; animation-delay: .15s; }
-  .wave-bar:nth-child(3) { height: 10px; animation-delay: .3s; }
-  .wave-bar:nth-child(4) { height: 16px; animation-delay: .1s; }
-  .wave-bar:nth-child(5) { height: 8px; animation-delay: .25s; }
-  @keyframes waveBob {
-    0%, 100% { transform: scaleY(1); }
-    50% { transform: scaleY(0.4); }
-  }
-
-  /* FEATURES */
-  .section { max-width: 1100px; margin: 0 auto; padding: 5rem 2rem; }
-  .section-label {
-    display: flex; align-items: center; gap: 10px;
-    font-size: 12px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: .08em; color: var(--green); margin-bottom: 1rem;
-  }
-  .section-label::before, .section-label::after {
-    content: ''; flex: 1; height: 1px; background: var(--border);
-  }
-  h2 {
-    font-family: 'Instrument Serif', serif;
-    font-size: clamp(2rem, 4vw, 3rem);
-    text-align: center; line-height: 1.1; margin-bottom: 1rem;
-  }
-  .section-sub { text-align: center; color: var(--muted); font-size: 16px; max-width: 520px; margin: 0 auto 3.5rem; }
-
-  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-  .feat-card {
-    background: #fff; border: 1px solid var(--border);
-    border-radius: 20px; padding: 1.75rem;
-  }
-  .feat-icon {
-    width: 48px; height: 48px; background: var(--green-pale);
-    border-radius: 14px; display: flex; align-items: center; justify-content: center;
-    font-size: 22px; margin-bottom: 1rem;
-  }
-  .feat-card h3 { font-size: 16px; font-weight: 600; margin-bottom: .5rem; }
-  .feat-card p { font-size: 14px; color: var(--muted); line-height: 1.6; }
-
-  /* BIRD LIST */
-  .bird-section { background: var(--green-pale); padding: 5rem 0; }
-  .bird-section .section { }
-  .birds-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border); border-radius: 20px; overflow: hidden; border: 1px solid var(--border); }
-  .bird-row {
-    display: flex; align-items: center; gap: 14px;
-    background: #fff; padding: 14px 18px;
-    cursor: pointer; transition: background .15s;
-  }
-  .bird-row:hover { background: #f8fef9; }
-  .bird-emoji { font-size: 28px; flex-shrink: 0; }
-  .bird-info { flex: 1; min-width: 0; }
-  .bird-name { font-weight: 500; font-size: 14px; color: var(--dark); }
-  .bird-sci { font-style: italic; font-size: 12px; color: var(--muted); margin-top: 1px; }
-  .bird-region { font-size: 11px; color: #8aab8c; margin-top: 2px; }
-  .bird-play-btn {
-    width: 36px; height: 36px; flex-shrink: 0;
-    background: var(--green-pale); border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    border: 1px solid var(--border); transition: background .15s;
-  }
-  .bird-row:hover .bird-play-btn { background: var(--green-light); }
-  .bird-play-btn svg { width: 13px; height: 13px; fill: var(--green); margin-left: 1px; }
-  .bird-tag {
-    font-size: 10px; padding: 2px 8px; border-radius: 10px; margin-top: 3px; display: inline-block;
-  }
-  .tag-rare { background: #fdf0e0; color: #a05a00; }
-  .tag-new { background: var(--green-light); color: var(--green); }
-  .tag-featured { background: #ede8fb; color: #4a3a9a; }
-
-  /* INSTALL */
-  .install-section { padding: 5rem 2rem; }
-  .install-card {
-    max-width: 700px; margin: 0 auto;
-    background: var(--dark); border-radius: 28px;
-    padding: 3rem; color: #fff; text-align: center;
-  }
-  .install-card h2 { font-family: 'Instrument Serif', serif; font-size: 2.4rem; color: #fff; margin-bottom: 1rem; }
-  .install-card p { color: rgba(255,255,255,0.6); font-size: 15px; line-height: 1.6; margin-bottom: 2rem; }
-  .install-steps {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
-    margin-bottom: 2.5rem;
-  }
-  .step {
-    background: rgba(255,255,255,0.06); border-radius: 16px;
-    padding: 1.25rem 1rem; border: 1px solid rgba(255,255,255,0.08);
-  }
-  .step-num {
-    width: 30px; height: 30px; border-radius: 50%;
-    background: var(--green-mid); color: #fff;
-    font-size: 13px; font-weight: 600;
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto .75rem;
-  }
-  .step p { color: rgba(255,255,255,0.65); font-size: 13px; line-height: 1.5; margin: 0; }
-  .btn-install {
-    display: inline-flex; align-items: center; gap: 12px;
-    background: #fff; color: var(--dark);
-    padding: 16px 32px; border-radius: 16px;
-    font-size: 16px; font-weight: 600; text-decoration: none;
-    transition: opacity .2s, transform .15s;
-  }
-  .btn-install:hover { opacity: 0.9; transform: translateY(-1px); }
-  .btn-install svg { width: 22px; height: 22px; }
-  .install-note { margin-top: 1rem; color: rgba(255,255,255,0.35); font-size: 12px; }
-
-  /* REVIEWS */
-  .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-  .review-card {
-    background: #fff; border: 1px solid var(--border);
-    border-radius: 18px; padding: 1.5rem;
-  }
-  .review-stars { color: #f4a227; font-size: 13px; margin-bottom: .75rem; }
-  .review-text { font-size: 14px; line-height: 1.6; color: var(--muted); margin-bottom: 1rem; font-style: italic; }
-  .review-author { font-size: 13px; font-weight: 500; }
-  .review-handle { font-size: 12px; color: #aaa; }
-
-  /* FOOTER */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 2.5rem 2rem;
-    display: flex; align-items: center; justify-content: space-between;
-    max-width: 1100px; margin: 0 auto;
-    color: var(--muted); font-size: 13px;
-  }
-  .footer-logo { display: flex; align-items: center; gap: 8px; font-weight: 500; color: var(--dark); }
-  .footer-links { display: flex; gap: 1.5rem; }
-  .footer-links a { color: var(--muted); text-decoration: none; }
-  .footer-links a:hover { color: var(--green); }
-
-  /* Decorative BG blobs */
-  .blob-wrap { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-  .blob {
-    position: absolute; border-radius: 50%;
-    filter: blur(80px); opacity: .18;
-  }
-  .blob1 { width: 500px; height: 500px; background: #40916c; top: -100px; right: -100px; }
-  .blob2 { width: 350px; height: 350px; background: #95d5b2; bottom: 20%; left: -80px; }
-
-  main { position: relative; z-index: 1; }
-
-  @media (max-width: 768px) {
-    .hero { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
-    .hero-sub { max-width: 100%; }
-    .cta-group { justify-content: center; }
-    .hero-meta { justify-content: center; }
-    .phone-wrap { order: -1; }
-    .phone { width: 220px; }
-    .features-grid { grid-template-columns: 1fr; }
-    .birds-grid { grid-template-columns: 1fr; }
-    .install-steps { grid-template-columns: 1fr; }
-    .reviews-grid { grid-template-columns: 1fr; }
-    .nav-links { display: none; }
-    footer { flex-direction: column; gap: 1rem; text-align: center; }
-  }
+  html, body { height: 100%; overflow: hidden; font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); -webkit-tap-highlight-color: transparent; user-select: none; }
+  .app { display: flex; flex-direction: column; height: 100dvh; max-width: 430px; margin: 0 auto; }
+  .status-bar { height: env(safe-area-inset-top, 44px); background: var(--bg); flex-shrink: 0; }
+  header { flex-shrink: 0; background: var(--bg); padding: 12px 20px 0; border-bottom: 1px solid var(--border); }
+  .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .app-title { font-size: 28px; font-weight: 600; letter-spacing: -.5px; }
+  .search-bar { display: flex; align-items: center; gap: 8px; background: var(--bg3); border-radius: 12px; padding: 10px 14px; margin-bottom: 14px; }
+  .search-bar svg { width: 15px; height: 15px; flex-shrink: 0; opacity: .5; }
+  .search-bar input { background: none; border: none; outline: none; color: var(--text); font-size: 15px; font-family: inherit; width: 100%; }
+  .search-bar input::placeholder { color: var(--muted); }
+  .tabs { display: flex; gap: 4px; }
+  .tab { padding: 8px 16px; border-radius: 10px 10px 0 0; font-size: 13px; font-weight: 500; color: var(--muted); cursor: pointer; transition: all .2s; border: none; background: none; font-family: inherit; }
+  .tab.active { color: var(--accent); background: var(--bg2); }
+  .bird-list { flex: 1; overflow-y: auto; background: var(--bg2); -webkit-overflow-scrolling: touch; padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .bird-list::-webkit-scrollbar { display: none; }
+  .section-header { padding: 14px 20px 6px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); position: sticky; top: 0; background: var(--bg2); z-index: 2; }
+  .bird-item { display: flex; align-items: center; gap: 14px; padding: 13px 20px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background .15s; }
+  .bird-item:active { background: var(--bg3); }
+  .bird-item.playing { background: rgba(82,183,136,0.08); }
+  .bird-emoji { font-size: 32px; flex-shrink: 0; width: 44px; text-align: center; }
+  .bird-details { flex: 1; min-width: 0; }
+  .bird-name { font-size: 15px; font-weight: 500; }
+  .bird-sci { font-size: 12px; color: var(--muted); font-style: italic; margin-top: 1px; }
+  .bird-meta { display: flex; align-items: center; gap: 6px; margin-top: 4px; flex-wrap: wrap; }
+  .bird-region { font-size: 11px; color: #3d6b50; }
+  .bird-tag { font-size: 10px; padding: 2px 7px; border-radius: 8px; font-weight: 500; }
+  .tag-rare { background: rgba(181,69,27,0.2); color: #e8855a; }
+  .tag-new { background: rgba(82,183,136,0.15); color: var(--accent); }
+  .tag-featured { background: rgba(120,90,200,0.2); color: #b09ee0; }
+  .play-btn { width: 40px; height: 40px; flex-shrink: 0; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .2s; background: var(--bg3); }
+  .play-btn.playing { background: var(--green-mid); }
+  .play-btn svg { width: 14px; height: 14px; fill: var(--text); }
+  .play-btn .stop-icon { display: none; }
+  .play-btn.playing .play-icon { display: none; }
+  .play-btn.playing .stop-icon { display: block; }
+  .wave { display: none; align-items: center; gap: 2px; height: 18px; }
+  .bird-item.playing .wave { display: flex; }
+  .bird-item.playing .bird-region { display: none; }
+  .wbar { width: 3px; background: var(--accent); border-radius: 2px; animation: wb .7s ease-in-out infinite; }
+  .wbar:nth-child(1){height:5px;animation-delay:0s} .wbar:nth-child(2){height:12px;animation-delay:.12s} .wbar:nth-child(3){height:8px;animation-delay:.24s} .wbar:nth-child(4){height:14px;animation-delay:.06s} .wbar:nth-child(5){height:6px;animation-delay:.18s}
+  @keyframes wb { 0%,100%{transform:scaleY(1)}50%{transform:scaleY(.3)} }
+  .fav-btn { background: none; border: none; cursor: pointer; font-size: 18px; padding: 0 0 0 4px; line-height: 1; }
+  .now-playing { flex-shrink: 0; background: var(--bg3); border-top: 1px solid var(--border); padding: 12px 20px calc(12px + env(safe-area-inset-bottom, 0px)); display: flex; align-items: center; gap: 12px; min-height: 64px; transform: translateY(100%); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+  .now-playing.visible { transform: translateY(0); }
+  .np-emoji { font-size: 28px; }
+  .np-info { flex: 1; min-width: 0; }
+  .np-name { font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .np-sub { font-size: 12px; color: var(--muted); }
+  .np-wave { display: flex; align-items: center; gap: 2px; }
+  .np-bar { width: 3px; background: var(--accent); border-radius: 2px; animation: wb .7s ease-in-out infinite; }
+  .np-bar:nth-child(1){height:6px;animation-delay:0s} .np-bar:nth-child(2){height:14px;animation-delay:.15s} .np-bar:nth-child(3){height:9px;animation-delay:.3s} .np-bar:nth-child(4){height:16px;animation-delay:.1s} .np-bar:nth-child(5){height:7px;animation-delay:.22s}
+  .np-stop { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.08); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .np-stop svg { width: 12px; height: 12px; fill: var(--text); }
+  .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 300px; color: var(--muted); font-size: 14px; gap: 8px; text-align: center; padding: 2rem; }
+  .empty-state .big { font-size: 48px; }
 </style>
 </head>
 <body>
+<div class="app">
+  <div class="status-bar"></div>
+  <header>
+    <div class="header-top">
+      <div class="app-title">AvianCall 🐦</div>
+    </div>
+    <div class="search-bar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="searchInput" placeholder="Search birds..." autocomplete="off" autocorrect="off" spellcheck="false">
+    </div>
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('all',this)">All Birds</button>
+      <button class="tab" onclick="switchTab('favorites',this)">Favorites ♥</button>
+    </div>
+  </header>
 
-<div class="blob-wrap">
-  <div class="blob blob1"></div>
-  <div class="blob blob2"></div>
-</div>
+  <div class="bird-list" id="birdList"></div>
 
-<nav>
-  <a href="#" class="nav-logo">
-    <img src="https://em-content.zobj.net/source/apple/391/bird_1f426.png" alt="AvianCall icon">
-    AvianCall
-  </a>
-  <ul class="nav-links">
-    <li><a href="#features">Features</a></li>
-    <li><a href="#library">Library</a></li>
-    <li><a href="#install">Install</a></li>
-    <li><a href="#reviews">Reviews</a></li>
-  </ul>
-  <a href="#install" class="nav-badge">Get the App</a>
-</nav>
-
-<main>
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-text">
-    <div class="hero-eyebrow"><span>🐦</span> The #1 Bird Sound App</div>
-    <h1>Discover every <em>song</em> of every bird</h1>
-    <p class="hero-sub">AvianCall gives you instant access to 800+ professionally recorded bird calls from around the world. Identify, explore, and share.</p>
-    <div class="cta-group">
-      <a href="#install" class="btn-primary">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z"/><circle cx="12" cy="12" r="3"/></svg>
-        Add to Home Screen
-      </a>
-      <a href="#library" class="btn-secondary">Browse library →</a>
+  <div class="now-playing" id="nowPlaying">
+    <div class="np-emoji" id="npEmoji">🐦</div>
+    <div class="np-info">
+      <div class="np-name" id="npName">–</div>
+      <div class="np-sub">Now playing</div>
     </div>
-    <div class="hero-meta">
-      <div>
-        <div class="stars">★★★★★</div>
-        <div class="meta-label"><strong>4.9</strong> out of 5</div>
-      </div>
-      <div class="meta-divider"></div>
-      <div class="meta-label"><strong>80K+</strong><br>happy birders</div>
-      <div class="meta-divider"></div>
-      <div class="meta-label"><strong>800+</strong><br>bird sounds</div>
-    </div>
-  </div>
-  <div class="phone-wrap">
-    <div class="phone">
-      <div class="phone-notch"></div>
-      <div class="phone-screen">
-        <div class="ps-header">
-          <span class="ps-title">AvianCall</span>
-          <svg width="18" height="18" fill="none" stroke="#6a8f6c" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
-        </div>
-        <div class="ps-search">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
-          Search birds...
-        </div>
-        <div class="ps-list">
-          <div class="ps-item">
-            <div class="ps-icon">🦜</div>
-            <div class="ps-info">
-              <div class="ps-bird">Scarlet Macaw</div>
-              <div class="ps-region">Central America</div>
-            </div>
-            <div class="ps-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-          </div>
-          <div class="ps-item">
-            <div class="ps-icon">🦅</div>
-            <div class="ps-info">
-              <div class="ps-bird">Bald Eagle</div>
-              <div class="ps-region">North America</div>
-            </div>
-            <div class="ps-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-          </div>
-          <div class="ps-item">
-            <div class="ps-icon">🦆</div>
-            <div class="ps-info">
-              <div class="ps-bird">Northern Pintail</div>
-              <div class="ps-region">Wetlands, Global</div>
-            </div>
-            <div class="ps-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-          </div>
-          <div class="ps-item">
-            <div class="ps-icon">🦉</div>
-            <div class="ps-info">
-              <div class="ps-bird">Great Horned Owl</div>
-              <div class="ps-region">Americas</div>
-            </div>
-            <div class="ps-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-          </div>
-          <div class="ps-item">
-            <div class="ps-icon">🐦</div>
-            <div class="ps-info">
-              <div class="ps-bird">Eastern Screech-Owl</div>
-              <div class="ps-region">Eastern North America</div>
-            </div>
-            <div class="ps-play"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-          </div>
-        </div>
-        <div class="ps-now-playing">
-          <div class="ps-np-icon">🦜</div>
-          <div class="ps-np-info">
-            <div class="ps-np-name">Scarlet Macaw</div>
-            <div class="ps-np-sub">Now playing</div>
-          </div>
-          <div class="ps-np-wave">
-            <div class="wave-bar"></div>
-            <div class="wave-bar"></div>
-            <div class="wave-bar"></div>
-            <div class="wave-bar"></div>
-            <div class="wave-bar"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FEATURES -->
-<section class="section" id="features">
-  <div class="section-label">Features</div>
-  <h2>Everything a birder needs</h2>
-  <p class="section-sub">From backyard sparrows to exotic jungle birds — AvianCall has every call, chirp, and song you're looking for.</p>
-  <div class="features-grid">
-    <div class="feat-card">
-      <div class="feat-icon">🎙️</div>
-      <h3>Pro-quality recordings</h3>
-      <p>Every sound recorded in the field by professional ornithologists. No synthesized audio — 100% real.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">📍</div>
-      <h3>Region filtering</h3>
-      <p>Browse birds by continent, country, or biome. Find exactly what you'd hear on your next hike.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">🔍</div>
-      <h3>Smart search</h3>
-      <p>Search by common name, scientific name, or habitat. Instant results as you type.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">📥</div>
-      <h3>Offline playback</h3>
-      <p>Download your favorites and listen anywhere — no signal needed in the field.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">❤️</div>
-      <h3>Personal collection</h3>
-      <p>Save your favorite birds and build your own personal sightings list with notes.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">🌿</div>
-      <h3>New birds weekly</h3>
-      <p>Our team of ornithologists adds fresh recordings every week. The library never stops growing.</p>
-    </div>
-  </div>
-</section>
-
-<!-- BIRD LIBRARY -->
-<div class="bird-section" id="library">
-<section class="section">
-  <div class="section-label">Sound Library</div>
-  <h2>800+ birds. One app.</h2>
-  <p class="section-sub">A sample of what's inside — from beloved classics to some very unusual specimens.</p>
-  <div class="birds-grid">
-
-    <div class="bird-row">
-      <div class="bird-emoji">🦜</div>
-      <div class="bird-info">
-        <div class="bird-name">Scarlet Macaw</div>
-        <div class="bird-sci">Ara macao</div>
-        <div class="bird-region">🌎 Central & South America</div>
-      </div>
-      <div class="bird-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-    </div>
-
-    <div class="bird-row">
-      <div class="bird-emoji">🦅</div>
-      <div class="bird-info">
-        <div class="bird-name">Bald Eagle</div>
-        <div class="bird-sci">Haliaeetus leucocephalus</div>
-        <div class="bird-region">🌎 North America</div>
-      </div>
-      <div class="bird-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-    </div>
-
-    <div class="bird-row">
-      <div class="bird-emoji">🦉</div>
-      <div class="bird-info">
-        <div class="bird-name">Great Horned Owl</div>
-        <div class="bird-sci">Bubo virginianus</div>
-        <div class="bird-region">🌎 Americas</div>
-      </div>
-      <div class="bird-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-    </div>
-
-    <div class="bird-row">
-      <div class="bird-emoji">🐦</div>
-      <div class="bird-info">
-        <div class="bird-name">Northern Cardinal</div>
-        <div class="bird-sci">Cardinalis cardinalis</div>
-        <div class="bird-region">🌎 Eastern North America</div>
-        <span class="bird-tag tag-featured">Fan favourite</span>
-      </div>
-      <div class="bird-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-    </div>
-
-    <div class="bird-row">
-      <div class="bird-emoji">🦆</div>
-      <div class="bird-info">
-        <div class="bird-name">Mallard Duck</div>
-        <div class="bird-sci">Anas platyrhynchos</div>
-        <div class="bird-region">🌍 Global Wetlands</div>
-      </div>
-      <div class="bird-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-    </div>
-
-    <div class="bird-row">
-      <div class="bird-emoji">🦢</div>
-      <div class="bird-info">
-        <div class="bird-name">Whooper Swan</div>
-        <div class="bird-sci">Cygnus cygnus</div>
-        <div class="bird-region">🌍 Northern Eurasia</div>
-      </div>
-      <div class="bird-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-    </div>
-
-    <div class="bird-row">
-      <div class="bird-emoji">🐦</div>
-      <div class="bird-info">
-        <div class="bird-name">Common Loon</div>
-        <div class="bird-sci">Gavia immer</div>
-        <div class="bird-region">🌎 Northern Lakes</div>
-        <span class="bird-tag tag-featured">Fan favourite</span>
-      </div>
-      <div class="bird-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-    </div>
-
-    <div class="bird-row">
-      <div class="bird-emoji">🦜</div>
-      <div class="bird-info">
-        <div class="bird-name">Kakapo</div>
-        <div class="bird-sci">Strigops habroptilus</div>
-        <div class="bird-region">🌏 New Zealand</div>
-        <span class="bird-tag tag-rare">Rare</span>
-      </div>
-      <div class="bird-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-    </div>
-
-    <!-- PRANK BIRDS START HERE -->
-
-    <div class="bird-row">
-      <div class="bird-emoji">🐦</div>
-      <div class="bird-info">
-        <div class="bird-name">Greater Marsh Groaner</div>
-        <div class="bird-sci">Botaurus horridulus</div>
-        <div class="bird-region">🌎 North American Wetlands</div>
-        <span class="bird-tag tag-rare">Rarely recorded</span>
-      </div>
-      <div class="bird-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-    </div>
-
-    <div class="bird-row">
-      <div class="bird-emoji">🐦</div>
-      <div class="bird-info">
-        <div class="bird-name">Northern Screech Weasel-Bird</div>
-        <div class="bird-sci">Mustela avibus septentrionalis</div>
-        <div class="bird-region">🌎 Canadian Shield</div>
-        <span class="bird-tag tag-new">New</span>
-      </div>
-      <div class="bird-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-    </div>
-
-    <div class="bird-row">
-      <div class="bird-emoji">🐦</div>
-      <div class="bird-info">
-        <div class="bird-name">Pale-Throated Howler Finch</div>
-        <div class="bird-sci">Fringilla ululans</div>
-        <div class="bird-region">🌎 Appalachian Ridge</div>
-        <span class="bird-tag tag-rare">Rare</span>
-      </div>
-      <div class="bird-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-    </div>
-
-    <div class="bird-row">
-      <div class="bird-emoji">🐦</div>
-      <div class="bird-info">
-        <div class="bird-name">Rusty-Bellied Shriek Thrush</div>
-        <div class="bird-sci">Turdus stridulus ferruginus</div>
-        <div class="bird-region">🌎 Great Lakes Region</div>
-        <span class="bird-tag tag-new">New</span>
-      </div>
-      <div class="bird-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-    </div>
-
-    <div class="bird-row">
-      <div class="bird-emoji">🐦</div>
-      <div class="bird-info">
-        <div class="bird-name">Mottled Wailing Crake</div>
-        <div class="bird-sci">Crex lamentans maculosus</div>
-        <div class="bird-region">🌍 Coastal Marshes</div>
-        <span class="bird-tag tag-rare">Rarely recorded</span>
-      </div>
-      <div class="bird-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-    </div>
-
-    <div class="bird-row">
-      <div class="bird-emoji">🐦</div>
-      <div class="bird-info">
-        <div class="bird-name">Eastern Gurgling Stint</div>
-        <div class="bird-sci">Calidris gurgulans orientalis</div>
-        <div class="bird-region">🌎 Atlantic Flyway</div>
-        <span class="bird-tag tag-new">New</span>
-      </div>
-      <div class="bird-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-    </div>
-
-    <div class="bird-row">
-      <div class="bird-emoji">🐦</div>
-      <div class="bird-info">
-        <div class="bird-name">Black-Capped Gobbling Chat</div>
-        <div class="bird-sci">Saxicola gloturans melanocephalus</div>
-        <div class="bird-region">🌎 Midwest Prairie</div>
-        <span class="bird-tag tag-rare">Rare</span>
-      </div>
-      <div class="bird-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-    </div>
-
-  </div>
-  <p style="text-align:center; color: var(--muted); font-size:13px; margin-top:1.5rem;">Showing 16 of 800+ birds · <a href="#" style="color:var(--green)">Browse full library →</a></p>
-</section>
-</div>
-
-<!-- INSTALL -->
-<div class="install-section" id="install">
-  <div class="install-card">
-    <div style="font-size:48px; margin-bottom:1rem;">🐦</div>
-    <h2>Add AvianCall to your iPhone</h2>
-    <p>AvianCall is a free web app — no App Store required. Just add it to your home screen in 3 easy steps and it works like a native app.</p>
-    <div class="install-steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <p>Open this page in <strong>Safari</strong> on your iPhone or iPad</p>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <p>Tap the <strong>Share</strong> button at the bottom of your browser</p>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <p>Scroll down and tap <strong>"Add to Home Screen"</strong> then tap Add</p>
-      </div>
-    </div>
-    <a href="https://yourname.github.io/aviancall" class="btn-install">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
-      Open in Safari to Install
-    </a>
-    <p class="install-note">Requires iOS 14+. Works on iPhone and iPad. 100% free.</p>
+    <div class="np-wave"><div class="np-bar"></div><div class="np-bar"></div><div class="np-bar"></div><div class="np-bar"></div><div class="np-bar"></div></div>
+    <button class="np-stop" onclick="stopAll()"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/></svg></button>
   </div>
 </div>
 
-<!-- REVIEWS -->
-<section class="section" id="reviews">
-  <div class="section-label">Reviews</div>
-  <h2>Loved by birders worldwide</h2>
-  <p class="section-sub">Join 80,000+ nature lovers who use AvianCall every day.</p>
-  <div class="reviews-grid">
-    <div class="review-card">
-      <div class="review-stars">★★★★★</div>
-      <p class="review-text">"Incredible library. I was on a trail in Vermont and heard something I'd never heard before — found it in seconds. The sound quality is outstanding."</p>
-      <div class="review-author">Sarah M.</div>
-      <div class="review-handle">Verified user · Vermont</div>
-    </div>
-    <div class="review-card">
-      <div class="review-stars">★★★★★</div>
-      <p class="review-text">"I got my whole family into birding because of this app. My kids love pressing play on all the different species. Absolutely worth it."</p>
-      <div class="review-author">James T.</div>
-      <div class="review-handle">Verified user · Oregon</div>
-    </div>
-    <div class="review-card">
-      <div class="review-stars">★★★★★</div>
-      <p class="review-text">"The rare species recordings are unlike anything I've found elsewhere. The Marsh Groaner one is… something else. Highly recommend."</p>
-      <div class="review-author">Priya K.</div>
-      <div class="review-handle">Verified user · Ontario, Canada</div>
-    </div>
-  </div>
-</section>
+<script>
+const BASE = 'https://lukasJT.github.io/aviancall/sounds/';
 
-</main>
+const birds = [
+  // REAL BIRDS
+  { id:1,  emoji:'🦅', name:'Bald Eagle',           sci:'Haliaeetus leucocephalus',  region:'North America',         tag:'featured', prank:false, audio:'https://upload.wikimedia.org/wikipedia/commons/8/8c/Haliaeetus_leucocephalus_call.ogg' },
+  { id:2,  emoji:'🦉', name:'Great Horned Owl',      sci:'Bubo virginianus',          region:'Americas',              tag:null,       prank:false, audio:'https://upload.wikimedia.org/wikipedia/commons/2/2c/Bubo_virginianus_-_Great_Horned_Owl_-_XC154578.ogg' },
+  { id:3,  emoji:'🐦', name:'Northern Cardinal',     sci:'Cardinalis cardinalis',     region:'Eastern North America', tag:'featured', prank:false, audio:'https://upload.wikimedia.org/wikipedia/commons/7/77/Cardinalis_cardinalis_-_NorthernCardinal.ogg' },
+  { id:4,  emoji:'🦆', name:'Mallard Duck',          sci:'Anas platyrhynchos',        region:'Global Wetlands',       tag:null,       prank:false, audio:'https://upload.wikimedia.org/wikipedia/commons/6/6c/Anas_platyrhynchos_call_-_XC73729.ogg' },
+  { id:5,  emoji:'🐦', name:'Common Loon',           sci:'Gavia immer',               region:'Northern Lakes',        tag:'featured', prank:false, audio:'https://upload.wikimedia.org/wikipedia/commons/6/64/Gavia_immer_-_Common_Loon_-_XC197778.ogg' },
+  { id:6,  emoji:'🦜', name:'Kakapo',                sci:'Strigops habroptilus',      region:'New Zealand',           tag:'rare',     prank:false, audio:'https://upload.wikimedia.org/wikipedia/commons/b/bf/Strigops_habroptila_-_Kakapo_-_XC77451.ogg' },
+  { id:7,  emoji:'🦚', name:'Indian Peafowl',        sci:'Pavo cristatus',            region:'South Asia',            tag:null,       prank:false, audio:'https://upload.wikimedia.org/wikipedia/commons/3/3d/Pavo_cristatus_-_Indian_Peafowl_-_XC85473.ogg' },
+  { id:8,  emoji:'🦢', name:'Whooper Swan',          sci:'Cygnus cygnus',             region:'Northern Eurasia',      tag:null,       prank:false, audio:'https://upload.wikimedia.org/wikipedia/commons/0/03/Cygnus_cygnus_-_XC14484.ogg' },
+  { id:9,  emoji:'🐦', name:'Wood Thrush',           sci:'Hylocichla mustelina',      region:'Eastern North America', tag:null,       prank:false, audio:'https://upload.wikimedia.org/wikipedia/commons/4/4e/Hylocichla_mustelina_-_Wood_Thrush_-_XC116617.ogg' },
+  { id:10, emoji:'🦤', name:'Brown Kiwi',            sci:'Apteryx australis',         region:'New Zealand',           tag:'rare',     prank:false, audio:'https://upload.wikimedia.org/wikipedia/commons/4/4c/Apteryx_australis_-_Brown_Kiwi_-_XC17863.ogg' },
 
-<footer>
-  <div class="footer-logo">
-    <img src="https://em-content.zobj.net/source/apple/391/bird_1f426.png" style="width:24px;height:24px;border-radius:6px;" alt="">
-    AvianCall
-  </div>
-  <div style="color:var(--muted); font-size:12px;">© 2024 AvianCall. Made with 🍃 for birders everywhere.</div>
-  <div class="footer-links">
-    <a href="#">Privacy</a>
-    <a href="#">Terms</a>
-    <a href="#">GitHub</a>
-    <a href="#">Contact</a>
-  </div>
-</footer>
+  // PRANK BIRDS — your audio files
+  { id:11, emoji:'🦉', name:'Barn Owl',                      sci:'Tyto alba',                        region:'Global',                  tag:null,       prank:true, audio:BASE+'Owl call normal.m4a' },
+  { id:12, emoji:'🦉', name:'Eastern Screech-Owl',           sci:'Megascops asio',                   region:'Eastern North America',   tag:'rare',     prank:true, audio:BASE+'Owl call mating.m4a' },
+  { id:13, emoji:'🪿', name:'Canada Goose',                  sci:'Branta canadensis',                region:'North America',           tag:null,       prank:true, audio:BASE+'Goose horny.m4a' },
+  { id:14, emoji:'🦅', name:'Golden Eagle',                  sci:'Aquila chrysaetos',                region:'Northern Hemisphere',     tag:'featured', prank:true, audio:BASE+'Eagle horny.m4a' },
+  { id:15, emoji:'🦆', name:'Wood Duck',                     sci:'Aix sponsa',                       region:'North America',           tag:null,       prank:true, audio:BASE+'Duck maybe horny.m4a' },
+  { id:16, emoji:'🐦', name:'Ruffed Grouse',                 sci:'Bonasa umbellus',                  region:'North American Forest',   tag:'rare',     prank:true, audio:BASE+'Grouse horny.m4a' },
+  { id:17, emoji:'🐦', name:'American Robin',                sci:'Turdus migratorius',               region:'North America',           tag:null,       prank:true, audio:BASE+'Robin horny.m4a' },
+  { id:18, emoji:'🐓', name:'Wild Turkey',                   sci:'Meleagris gallopavo',              region:'North America',           tag:null,       prank:true, audio:BASE+'Chicken horny.m4a' },
+];
 
+let currentAudio = null;
+let currentId = null;
+let favorites = JSON.parse(localStorage.getItem('aviancall_fav') || '[]');
+let currentTab = 'all';
+let searchQuery = '';
+
+function playBird(id) {
+  const bird = birds.find(b => b.id === id);
+  if (!bird) return;
+  if (currentId === id) { stopAll(); return; }
+  stopAll();
+  currentAudio = new Audio(bird.audio);
+  currentId = id;
+  currentAudio.play().then(() => {
+    setPlaying(id, bird);
+    currentAudio.onended = stopAll;
+  }).catch(() => {
+    // fallback tone if file missing
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(500 + id * 60, ctx.currentTime);
+    osc.frequency.linearRampToValueAtTime(700, ctx.currentTime + 0.5);
+    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 1.5);
+    osc.start(); osc.stop(ctx.currentTime + 1.5);
+    currentId = id;
+    setPlaying(id, bird);
+    setTimeout(() => { if (currentId === id) stopAll(); }, 1600);
+  });
+}
+
+function stopAll() {
+  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+  document.querySelectorAll('.bird-item.playing').forEach(el => el.classList.remove('playing'));
+  document.querySelectorAll('.play-btn.playing').forEach(el => el.classList.remove('playing'));
+  document.getElementById('nowPlaying').classList.remove('visible');
+  currentId = null;
+}
+
+function setPlaying(id, bird) {
+  document.querySelector(`.bird-item[data-id="${id}"]`)?.classList.add('playing');
+  document.querySelector(`.play-btn[data-id="${id}"]`)?.classList.add('playing');
+  document.getElementById('npEmoji').textContent = bird.emoji;
+  document.getElementById('npName').textContent = bird.name;
+  document.getElementById('nowPlaying').classList.add('visible');
+}
+
+function toggleFav(id, e) {
+  e.stopPropagation();
+  favorites = favorites.includes(id) ? favorites.filter(f=>f!==id) : [...favorites, id];
+  localStorage.setItem('aviancall_fav', JSON.stringify(favorites));
+  renderList();
+}
+
+function switchTab(tab, el) {
+  currentTab = tab;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderList();
+}
+
+function birdHTML(b) {
+  const isFav = favorites.includes(b.id);
+  const tagMap = { rare:'Rare', new:'New', featured:'Fan favourite' };
+  const tagHTML = b.tag ? `<span class="bird-tag tag-${b.tag}">${tagMap[b.tag]}</span>` : '';
+  return `<div class="bird-item" data-id="${b.id}" onclick="playBird(${b.id})">
+    <div class="bird-emoji">${b.emoji}</div>
+    <div class="bird-details">
+      <div class="bird-name">${b.name}</div>
+      <div class="bird-sci">${b.sci}</div>
+      <div class="bird-meta">
+        <span class="bird-region">📍 ${b.region}</span>
+        <div class="wave"><div class="wbar"></div><div class="wbar"></div><div class="wbar"></div><div class="wbar"></div><div class="wbar"></div></div>
+        ${tagHTML}
+      </div>
+    </div>
+    <button class="play-btn" data-id="${b.id}" onclick="event.stopPropagation();playBird(${b.id})">
+      <svg class="play-icon" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+      <svg class="stop-icon" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>
+    </button>
+    <button class="fav-btn" onclick="toggleFav(${b.id},event)" style="color:${isFav?'#e05c5c':'rgba(255,255,255,0.2)'}">♥</button>
+  </div>`;
+}
+
+function renderList() {
+  const list = document.getElementById('birdList');
+  const q = searchQuery.toLowerCase();
+  let filtered = birds.filter(b => !q || b.name.toLowerCase().includes(q) || b.sci.toLowerCase().includes(q) || b.region.toLowerCase().includes(q));
+  if (currentTab === 'favorites') filtered = filtered.filter(b => favorites.includes(b.id));
+
+  if (!filtered.length) {
+    list.innerHTML = `<div class="empty-state"><div class="big">${currentTab==='favorites'?'♥':'🔍'}</div><div>${currentTab==='favorites'?'No favorites yet — tap ♥ on any bird':'No birds found'}</div></div>`;
+    return;
+  }
+
+  const real = filtered.filter(b=>!b.prank);
+  const prank = filtered.filter(b=>b.prank);
+  let html = '';
+  if (real.length) { html += `<div class="section-header">Common Species</div>`; real.forEach(b=>{html+=birdHTML(b);}); }
+  if (prank.length) { html += `<div class="section-header">Rare & Unusual</div>`; prank.forEach(b=>{html+=birdHTML(b);}); }
+  list.innerHTML = html;
+}
+
+document.getElementById('searchInput').addEventListener('input', e => { searchQuery = e.target.value; renderList(); });
+renderList();
+</script>
 </body>
 </html>
